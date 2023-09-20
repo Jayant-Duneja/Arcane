@@ -10,4 +10,4 @@ Java Version: -
 Additional Comments/Assumptions:
 
 Project 2.1.
-For UML question, we have provide the link to access it.
+For UML question, we have provide the link to access it as well as uploaded an image to the repository since it was not clear in Google docs
