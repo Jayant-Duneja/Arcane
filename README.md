@@ -2,10 +2,12 @@
 # project-2-arcane
 
 Team Members:
-1. Name
-2. Name
+1. Jayant Duneja
+2. Tilak Singh
 
-Java Version:
+Java Version: -
 
 Additional Comments/Assumptions:
 
+Project 2.1.
+For UML question, we have provide the link to access it.
