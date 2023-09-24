@@ -8,7 +8,8 @@ public class Mist_Walker extends Adventurer {
         super(health, dodge_chance, affinity, discord, current_room, treasure, damage_delta, dice_roll_combat_delta, dice_roll_treasure_delta);
     }
     @Override
-    void update_attributes(int floor_id){
+    void update_attributes(){
+        int floor_id = this.getCurrent_room().get(0);
         //increase dodge chance when at water floor
         //dec when at air floor
         if(floor_id == 2){

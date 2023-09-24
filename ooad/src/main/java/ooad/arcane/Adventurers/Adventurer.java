@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 //-1: Starting Floor
 //        0: Earth Floor
 //        1: Fire Floor
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 
 //@Getter
 //@Setter
-public class Adventurer {
+public abstract class Adventurer {
 
     public Adventurer(int health, int dodge_chance, String affinity, String discord, ArrayList<Integer> current_room, int treasure,
     int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta)
@@ -42,7 +44,9 @@ public class Adventurer {
     @Getter
     @Setter
     private int damage_delta;
-    private ArrayList<Integer> current_room;
+    @Getter
+    @Setter
+    private List<Integer> current_room;
     private int treasure;
     boolean is_alive()
     {
@@ -60,9 +64,19 @@ public class Adventurer {
             this.health=this.health-2+this.damage_delta;
         }
     }
-    void update_attributes(int floor_id) {
+    void update_attributes() {
     }
-    ArrayList<Integer> movement(){
-        return null;
+    List<Integer> movement(List<List<Integer>> possible_movements){
+        Random random = new Random();
+        int outerListSize = possible_movements.size();
+
+        // Generate a random index within the valid range
+        int randomIndex = random.nextInt(outerListSize);
+
+        // Retrieve the randomly chosen element
+        List<Integer> next_room = possible_movements.get(randomIndex);
+        this.current_room=next_room;
+        return next_room;
+
     }
 }
