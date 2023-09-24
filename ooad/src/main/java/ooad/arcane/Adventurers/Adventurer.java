@@ -3,7 +3,6 @@ package ooad.arcane.Adventurers;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 //-1: Starting Floor
@@ -16,13 +15,11 @@ import java.util.Random;
 //@Setter
 public abstract class Adventurer {
 
-    public Adventurer(int health, int dodge_chance, String affinity, String discord, ArrayList<Integer> current_room, int treasure,
+    public Adventurer(int health, double dodge_chance, List<Integer> current_room, int treasure,
     int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta)
     {
         this.health=health;
         this.dodge_chance=dodge_chance;
-        this.affinity=affinity;
-        this.discord=discord;
         this.current_room=current_room;
         this.treasure=treasure;
         this.dice_roll_combat_delta=dice_roll_combat_delta;
@@ -33,8 +30,6 @@ public abstract class Adventurer {
     @Getter
     @Setter
     private double dodge_chance;
-    private String affinity;
-    private String discord;
     @Getter
     @Setter
     private int dice_roll_combat_delta;
