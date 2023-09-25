@@ -11,7 +11,7 @@ public class Aquarids extends Creature{
         setActive_positions(initialPositions);
     }
     @Override
-    List<Integer> movement(List<Adventurer> adventurers){
+    List<List<Integer>> movement(List<Adventurer> adventurers){
 
         //Check if any adventurers are on water floor
         boolean adventurerOnSameFloor = isSameFloor(adventurers);
@@ -22,7 +22,7 @@ public class Aquarids extends Creature{
         }
 
         // Return the new positions of all Aquarids
-        return getActive_positions().get(1);
+        return getActive_positions();
     }
 
 

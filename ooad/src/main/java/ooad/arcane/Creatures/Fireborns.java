@@ -14,7 +14,7 @@ public class Fireborns extends Creature {
     }
 
     @Override
-    List<Integer> movement(List<Adventurer> adventurers) {
+    List<List<Integer>> movement(List<Adventurer> adventurers) {
         movingClockwise = new Random().nextBoolean(); // Random clockwise or anti-clockwise movement
 
         //Check if any adventurers are on fire floor
@@ -26,7 +26,7 @@ public class Fireborns extends Creature {
         }
 
         // Return the new positions of all Fireborns
-        return getActive_positions().get(1);
+        return getActive_positions();
     }
 
 

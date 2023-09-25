@@ -12,7 +12,7 @@ public class Zephyrals extends Creature{
     }
 
     @Override
-    List<Integer> movement(List<Adventurer> adventurers) {
+    List<List<Integer>> movement(List<Adventurer> adventurers) {
         // Check if any adventurers are on the air floor
         boolean adventurerOnSameFloor = isSameFloor(adventurers);
 
@@ -22,7 +22,7 @@ public class Zephyrals extends Creature{
         }
 
         // Return the new positions of all Zephyrals
-        return getActive_positions().get(1);
+        return getActive_positions();
     }
 
     private void moveZephyralsRandomly() {

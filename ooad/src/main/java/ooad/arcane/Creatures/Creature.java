@@ -25,7 +25,7 @@ public abstract class Creature {
         }
 
     }
-    List<Integer> movement(List<Adventurer> adventurers){
+    List<List<Integer>> movement(List<Adventurer> adventurers){
         return null;
     }
     boolean are_present(){

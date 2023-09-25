@@ -10,9 +10,9 @@ public class Terravores extends Creature {
     }
 
     @Override
-    List<Integer> movement(List<Adventurer> adventurers){
+    List<List<Integer>> movement(List<Adventurer> adventurers){
 
         // Return the new positions of all Terravores
-        return getActive_positions().get(1);
+        return getActive_positions();
     }
 }
