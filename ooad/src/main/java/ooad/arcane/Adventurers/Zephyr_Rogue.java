@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Zephyr_Rogue extends Adventurer {
 
-    public Zephyr_Rogue(int health, double dodge_chance, List<Integer> current_room, int treasure
+    public Zephyr_Rogue(String name, int health, double dodge_chance, List<Integer> current_room, int treasure
             , int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta) {
-        super(health, dodge_chance, current_room, treasure, damage_delta,dice_roll_combat_delta, dice_roll_treasure_delta);
+        super(name, health, dodge_chance, current_room, treasure, damage_delta,dice_roll_combat_delta, dice_roll_treasure_delta);
     }
     @Override
     void update_attributes(){

@@ -1,18 +1,19 @@
 package ooad.arcane.Creatures;
+
 import ooad.arcane.Adventurers.Adventurer;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Terravores extends Creature {
-    public Terravores(List<List<Integer>> initialPositions) {
-        super();
-        setActive_positions(initialPositions); // Set the initial positions for Terravores
+    public Terravores(String name, List<Integer> health,List<List<Integer>> initialPositions) {
+        super(name, health, initialPositions);
     }
 
     @Override
-    List<List<Integer>> movement(List<Adventurer> adventurers){
+    public void movement(List<Adventurer> adventurers){
 
         // Return the new positions of all Terravores
-        return getActive_positions();
+
     }
 }

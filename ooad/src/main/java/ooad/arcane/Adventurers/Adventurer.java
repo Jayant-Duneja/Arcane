@@ -15,9 +15,10 @@ import java.util.Random;
 //@Setter
 public abstract class Adventurer {
 
-    public Adventurer(int health, double dodge_chance, List<Integer> current_room, int treasure,
+    public Adventurer(String name, int health, double dodge_chance, List<Integer> current_room, int treasure,
     int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta)
     {
+        this.name=name;
         this.health=health;
         this.dodge_chance=dodge_chance;
         this.current_room=current_room;
@@ -26,6 +27,11 @@ public abstract class Adventurer {
         this.dice_roll_treasure_delta=dice_roll_treasure_delta;
         this.damage_delta=damage_delta;
     }
+    @Getter
+    @Setter
+    private String name;
+    @Getter
+    @Setter
     private int health;
     @Getter
     @Setter
@@ -43,7 +49,7 @@ public abstract class Adventurer {
     @Setter
     private List<Integer> current_room;
     private int treasure;
-    boolean is_alive()
+    public  boolean is_alive()
     {
         return this.health > 0;
     }
@@ -61,7 +67,7 @@ public abstract class Adventurer {
     }
     void update_attributes() {
     }
-    List<Integer> movement(List<List<Integer>> possible_movements){
+    public void movement(List<List<Integer>> possible_movements){
         Random random = new Random();
         int outerListSize = possible_movements.size();
 
@@ -71,7 +77,6 @@ public abstract class Adventurer {
         // Retrieve the randomly chosen element
         List<Integer> next_room = possible_movements.get(randomIndex);
         this.current_room=next_room;
-        return next_room;
 
     }
 }

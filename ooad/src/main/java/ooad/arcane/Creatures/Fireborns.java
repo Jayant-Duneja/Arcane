@@ -7,14 +7,13 @@ import java.util.*;
 public class Fireborns extends Creature {
     private boolean movingClockwise;
 
-    public Fireborns(List<List<Integer>> initialPositions) {
-        super();
-        setActive_positions(initialPositions);
+    public Fireborns(String name, List<Integer> health,List<List<Integer>> initialPositions) {
+        super(name, health, initialPositions);
         this.movingClockwise = new Random().nextBoolean();
     }
 
     @Override
-    List<List<Integer>> movement(List<Adventurer> adventurers) {
+    public void movement(List<Adventurer> adventurers) {
         movingClockwise = new Random().nextBoolean(); // Random clockwise or anti-clockwise movement
 
         //Check if any adventurers are on fire floor
@@ -24,9 +23,6 @@ public class Fireborns extends Creature {
         if (!adventurerOnSameFloor) {
             moveFireborn(movingClockwise);
         }
-
-        // Return the new positions of all Fireborns
-        return getActive_positions();
     }
 
 

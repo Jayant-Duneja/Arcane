@@ -6,30 +6,29 @@ import java.util.List;
 
 public class Aquarids extends Creature{
 
-    public Aquarids(List<List<Integer>> initialPositions){
-        super();
-        setActive_positions(initialPositions);
+    public Aquarids(String name, List<Integer> health,List<List<Integer>> initialPositions) {
+        super(name, health, initialPositions);
     }
     @Override
-    List<List<Integer>> movement(List<Adventurer> adventurers){
-
+    public void movement(List<Adventurer> adventurers){
+        // Previously, they will never move as they cannot be not on the same floor
+        // and adjacent to each other. both cases cannot happen.
+        moveAquarids(adventurers);
         //Check if any adventurers are on water floor
-        boolean adventurerOnSameFloor = isSameFloor(adventurers);
-
-        //If adventurer is not on the same floor, then we can move
-        if (!adventurerOnSameFloor) {
-            moveAquarids(adventurers);
-        }
-
-        // Return the new positions of all Aquarids
-        return getActive_positions();
+//        boolean adventurerOnSameFloor = isSameFloor(adventurers);
+//
+//        //If adventurer is not on the same floor, then we can move
+//        if (!adventurerOnSameFloor) {
+//            moveAquarids(adventurers);
+//        }
     }
 
 
     private void moveAquarids(List<Adventurer> adventurers){
-        for (List<Integer> aquaridPosition : getActive_positions()) {
+        for (List<Integer> aquaridPosition : this.getActive_positions()) {
             for (Adventurer adventurer : adventurers) {
-                if (isAdjacentToAdventurer(adventurer, aquaridPosition)) {
+                boolean adventurerOnSameFloor = isSameFloor(adventurer);
+                if (adventurerOnSameFloor && isAdjacentToAdventurer(adventurer, aquaridPosition)) {
                     moveToAdjacentAdventurer(adventurer, aquaridPosition);
                 }
             }
@@ -40,7 +39,8 @@ public class Aquarids extends Creature{
     private boolean isAdjacentToAdventurer(Adventurer adventurer, List<Integer> aquaridPosition) {
         //Adventurer :: [floorId, xPos, yPos]
         //Creature :: [[xPos, yPos], [xPos, yPos], [xPos, yPos], [xPos, yPos]]
-
+        // Adv: [0,1]
+        //
         int xDiff = Math.abs(adventurer.getCurrent_room().get(1) - aquaridPosition.get(0));
         int yDiff = Math.abs(adventurer.getCurrent_room().get(2) - aquaridPosition.get(1));
         return xDiff + yDiff == 1; // Checking if creature and adventurer is adjacent (left, right, top, or bottom)
@@ -52,12 +52,12 @@ public class Aquarids extends Creature{
     }
 
     //Checking if adventurer and creatures is on same floor
-    private boolean isSameFloor(List<Adventurer> adventurers) {
-        for (Adventurer adv : adventurers) {
-            if (adv.getCurrent_room().get(0) == 2) {
+    private boolean isSameFloor(Adventurer adventurer) {
+//        for (Adventurer adv : adventurers) {
+        if (adventurer.getCurrent_room().get(0) == 2) {
                 return true;
             }
-        }
         return false;
+
     }
 }

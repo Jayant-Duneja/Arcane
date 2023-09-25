@@ -5,30 +5,27 @@ import lombok.Setter;
 import ooad.arcane.Adventurers.Adventurer;
 
 import java.util.List;
-import java.util.Random;
 
 
 public abstract class Creature {
+    @Getter
+    @Setter
+    private String name;
+    @Getter
+    @Setter
     private List<Integer> health;
 
     @Getter
     @Setter
     private List<List<Integer>> active_positions;
 
-    public Creature(){
-        Random random = new Random();
-        for(int i=0;i<4;i++){
-            health.add(1);
-            int random_x =random.nextInt(2);
-            int random_y = random.nextInt(2);
-            active_positions.add(List.of(random_x, random_y));
-        }
-
+    public Creature(String name, List<Integer> health,List<List<Integer>> active_positions){
+        this.name=name;
+        this.health=health;
+        this.active_positions=active_positions;
     }
-    List<List<Integer>> movement(List<Adventurer> adventurers){
-        return null;
-    }
-    boolean are_present(){
+    public void movement(List<Adventurer> adventurers){}
+    public boolean are_present(){
         boolean flag=false;
         for(Integer i:this.health){
             if(i == 1){
