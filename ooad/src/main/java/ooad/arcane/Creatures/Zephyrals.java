@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Random;
 
 public class Zephyrals extends Creature{
-    public Zephyrals(List<List<Integer>> initialPositions){
-        super();
-        setActive_positions(initialPositions);
+    public Zephyrals(String name, List<Integer> health,List<List<Integer>> initialPositions) {
+        super(name, health, initialPositions);
     }
 
     @Override
-    List<List<Integer>> movement(List<Adventurer> adventurers) {
+    public void movement(List<Adventurer> adventurers) {
         // Check if any adventurers are on the air floor
         boolean adventurerOnSameFloor = isSameFloor(adventurers);
 
@@ -20,9 +19,6 @@ public class Zephyrals extends Creature{
         if (!adventurerOnSameFloor) {
             moveZephyralsRandomly();
         }
-
-        // Return the new positions of all Zephyrals
-        return getActive_positions();
     }
 
     private void moveZephyralsRandomly() {

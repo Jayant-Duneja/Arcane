@@ -3,9 +3,9 @@ package ooad.arcane.Adventurers;
 import java.util.List;
 
 public class Ember_Knight extends Adventurer{
-    public Ember_Knight(int health, double dodge_chance, List<Integer> current_room, int treasure
+    public Ember_Knight(String name, int health, double dodge_chance, List<Integer> current_room, int treasure
             , int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta) {
-        super(health, dodge_chance, current_room, treasure, damage_delta,dice_roll_combat_delta, dice_roll_treasure_delta);
+        super(name, health, dodge_chance, current_room, treasure, damage_delta,dice_roll_combat_delta, dice_roll_treasure_delta);
     }
     @Override
     void update_attributes(){
