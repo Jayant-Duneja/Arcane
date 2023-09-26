@@ -40,17 +40,10 @@ public class GameDriver {
     public void create_creature_objects(){
         this.active_creature_objects = new ArrayList<>();
         // We are assuming that the 4 creatures on each floor spawn on the 4 rooms on the edges
-        List<List<Integer>> initial_positions = new ArrayList<>(Arrays.asList(
-                Arrays.asList(0, 0),
-                Arrays.asList(0, 2),
-                Arrays.asList(2, 0),
-                Arrays.asList(2, 2)
-        ));
-        List<Integer> health = Collections.nCopies(4, 1);
-        this.active_creature_objects.add(new Terravores("TV", health,initial_positions));
-        this.active_creature_objects.add(new Fireborns("FB", health,initial_positions));
-        this.active_creature_objects.add(new Aquarids("AQ", health,initial_positions));
-        this.active_creature_objects.add(new Zephyrals("ZP", health,initial_positions));
+        this.active_creature_objects.add(new Terravores("TV", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
+        this.active_creature_objects.add(new Fireborns("FB", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
+        this.active_creature_objects.add(new Aquarids("AQ", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
+        this.active_creature_objects.add(new Zephyrals("ZP", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
     }
     public void create_floors(){
         // Adding 5 floors here
@@ -106,8 +99,4 @@ public class GameDriver {
         }
         return creatures_in_same_room_indices;
     }
-
-
-
-
 }
