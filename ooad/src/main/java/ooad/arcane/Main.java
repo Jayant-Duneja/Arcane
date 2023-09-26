@@ -1,5 +1,9 @@
 package ooad.arcane;
 
+import ooad.arcane.Adventurers.Adventurer;
+
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         GameDriver current_game = new GameDriver();
@@ -22,9 +26,22 @@ public class Main {
 //        }
         for(int i=0; i<3;i++) {
             System.out.println("Turn: " + i);
+            System.out.println("printing positions of Adventurers");
             current_game.move_adventurers();
+            System.out.println("------------------------------------------------------");
+            System.out.println("printing positions of Creatures");
             current_game.move_creatures();
-            System.out.println("###########################################################");
+            System.out.println("------------------------------------------------------");
+            System.out.println("Printing indices of Creatures on the same room");
+            for(Adventurer it:current_game.active_adventurers){
+                List<Integer> lst  = current_game.get_creature_in_same_room(it);
+                System.out.println("Name: " + it.getName());
+                System.out.println("Current Floor: " + it.getCurrent_room().get(0));
+                System.out.println("List of Indices: " + lst);
+                System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+            }
+            System.out.println("##################################################################################################################");
+
         }
 
     }

@@ -1,6 +1,7 @@
 package ooad.arcane;
 
 import lombok.Getter;
+import lombok.Setter;
 import ooad.arcane.Creatures.Creature;
 
 import java.util.Arrays;
@@ -10,7 +11,9 @@ import java.util.Map;
 import java.util.ArrayList;
 public class Floor {
     int floor_id;
-    Creature creature;
+    @Getter
+    @Setter
+    private Creature creature;
     @Getter
     Map<List<Integer>, List<List<Integer>>> roomConnections = new HashMap<>();
     public Floor(int floor_id, Creature creature){
@@ -46,7 +49,7 @@ public class Floor {
                         connections.add(Arrays.asList(this.floor_id, j, k + 1));
                     }
                     if(j == 1 && k == 1){
-                        connections.add(Arrays.asList(this.floor_id, 0, 0));
+                        connections.add(Arrays.asList(-1, 0, 0));
                     }
                     this.roomConnections.put(currentRoom, connections);
                 }

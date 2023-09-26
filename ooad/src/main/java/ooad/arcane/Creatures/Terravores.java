@@ -2,7 +2,6 @@ package ooad.arcane.Creatures;
 
 import ooad.arcane.Adventurers.Adventurer;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Terravores extends Creature {
@@ -12,7 +11,6 @@ public class Terravores extends Creature {
 
     @Override
     public void movement(List<Adventurer> adventurers){
-
         // Return the new positions of all Terravores
 
     }

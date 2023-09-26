@@ -32,10 +32,10 @@ public class GameDriver {
     public void create_adventurers(){
         this.active_adventurers = new ArrayList<>();
         // Creating the 4 adventurers and adding them to the active adventurers list
-        this.active_adventurers.add(new Ember_Knight("EK", 5, 0.2, List.of(-1, 0, 0), 0, 0, 0, 0));
-        this.active_adventurers.add(new Mist_Walker("MW", 3, 0.5, List.of(-1, 0, 0), 0, 0, 0, 0));
-        this.active_adventurers.add(new Terra_Voyager("TV", 7, 0.1, List.of(-1, 0, 0), 0, 0, 0, 0));
-        this.active_adventurers.add(new Zephyr_Rogue("ZR", 3, 0.25, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Ember_Knight("Ember Knight", 5, 0.2, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Mist_Walker("Mist Walker", 3, 0.5, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Terra_Voyager("Terra Voyager", 7, 0.1, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Zephyr_Rogue("Zephyr Rogue", 3, 0.25, List.of(-1, 0, 0), 0, 0, 0, 0));
     }
     public void create_creature_objects(){
         this.active_creature_objects = new ArrayList<>();
@@ -75,20 +75,38 @@ public class GameDriver {
             current_floor = current_room.get(0);
             connected_rooms = this.floors.get(current_floor+1).getRoomConnections().get(current_room);
             adv.movement(connected_rooms);
-            System.out.println("New Room is: " + adv.getCurrent_room());
+            System.out.println("Curr Room is: " + adv.getCurrent_room());
         }
-        System.out.println("------------------------------------------------------");
 
     }
     public void move_creatures(){
         for(Creature creature:this.active_creature_objects){
             System.out.println("Name: " + creature.getName());
-            System.out.println("Previous positions: " + creature.getActive_positions());
+            System.out.println("Prev positions are: " + creature.getActive_positions());
             creature.movement(this.active_adventurers);
             System.out.println("New Positions: " + creature.getActive_positions());
-            System.out.println("------------------------------------------------------");
         }
     }
+    // returns the indexes of all the creatures that are present in the same room as the
+    // adventurer on the floor. we can access by floor.creature.active_pos.get(i)
+    // After this, we use these indices only for updating health and for fighting
+    public List<Integer> get_creature_in_same_room(Adventurer adventurer)
+    {
+        List<Integer> creatures_in_same_room_indices = new ArrayList<>();
+        List<Integer> adventurer_current_position = adventurer.getCurrent_room();
+        int current_floor = adventurer_current_position.get(0);
+        for(int i=0; i < this.floors.get(current_floor+1).getCreature().getActive_positions().size();i++){
+            int current_creature_health = this.floors.get(current_floor+1).getCreature().getHealth().get(i);
+            List<Integer> current_creature_position = this.floors.get(current_floor+1).getCreature().getActive_positions().get(i);
+            if(current_creature_health == 1 && current_creature_position.get(0) == adventurer_current_position.get(1)
+                && current_creature_position.get(1) == adventurer_current_position.get(2))
+            {
+                creatures_in_same_room_indices.add(i);
+            }
+        }
+        return creatures_in_same_room_indices;
+    }
+
 
 
 
