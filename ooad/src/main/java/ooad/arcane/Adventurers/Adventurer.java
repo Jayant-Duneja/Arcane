@@ -48,6 +48,8 @@ public abstract class Adventurer {
     @Getter
     @Setter
     private List<Integer> current_room;
+    @Getter
+    @Setter
     private int treasure;
     public  boolean is_alive()
     {
@@ -77,6 +79,5 @@ public abstract class Adventurer {
         // Retrieve the randomly chosen element
         List<Integer> next_room = possible_movements.get(randomIndex);
         this.current_room=next_room;
-
     }
 }
