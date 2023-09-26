@@ -1,5 +1,7 @@
 package ooad.arcane;
 
+import ooad.arcane.Adventurers.Adventurer;
+
 public class Main {
     public static void main(String[] args) {
         GameDriver current_game = new GameDriver();
@@ -21,12 +23,28 @@ public class Main {
 //            System.out.println("---------------------------------------");
 //        }
         for(int i=0; i<5;i++) {
+
+            // Game turn
             System.out.println("Turn: " + (i+1));
+
+            // Adventurers position
             System.out.println("printing positions of Adventurers");
             current_game.move_adventurers();
+
             System.out.println("------------------------------------------------------");
+
+            // Creatures position
             System.out.println("printing positions of Creatures");
             current_game.move_creatures();
+
+            // Combat or Treasure condition
+            current_game.check_adventurer_creature_same_room(current_game.active_adventurers);
+
+
+            // Game termination condition
+            if(current_game.isGameOver())
+                break;
+
 //            System.out.println("------------------------------------------------------");
 //            System.out.println("Printing indices of Creatures on the same room");
 //            for(Adventurer it:current_game.active_adventurers){
