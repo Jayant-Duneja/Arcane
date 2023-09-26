@@ -39,13 +39,13 @@ public class Floor {
                     if (j > 0) {
                         connections.add(Arrays.asList(this.floor_id, j - 1, k));
                     }
-                    if (j < 1) {
+                    if (j < 2) {
                         connections.add(Arrays.asList(this.floor_id, j + 1, k));
                     }
                     if (k > 0) {
                         connections.add(Arrays.asList(this.floor_id, j, k - 1));
                     }
-                    if (k < 1) {
+                    if (k < 2) {
                         connections.add(Arrays.asList(this.floor_id, j, k + 1));
                     }
                     if(j == 1 && k == 1){
