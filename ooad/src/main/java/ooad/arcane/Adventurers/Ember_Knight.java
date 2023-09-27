@@ -2,6 +2,8 @@ package ooad.arcane.Adventurers;
 
 import java.util.List;
 
+
+// Inheritance :: Ember_Knight inherits Adventurer
 public class Ember_Knight extends Adventurer{
     public Ember_Knight(String name, int health, double dodge_chance, List<Integer> current_room, int treasure
             , int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta) {

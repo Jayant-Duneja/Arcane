@@ -4,6 +4,7 @@ import ooad.arcane.Adventurers.Adventurer;
 import java.util.*;
 
 
+// Inheritance :: Fireborns inherits Creature
 public class Fireborns extends Creature {
     private boolean movingClockwise;
 

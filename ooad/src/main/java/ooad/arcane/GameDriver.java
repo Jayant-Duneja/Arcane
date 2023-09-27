@@ -18,6 +18,9 @@ public class GameDriver {
     List<Creature> active_creature_objects;
     List<Floor> floors;
     int treasure_found_so_far;
+
+
+    //Cohesion:: High Cohesion in Object Initialization:
     public GameDriver() {
         create_adventurers();
         create_creature_objects();
