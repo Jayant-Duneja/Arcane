@@ -1,10 +1,9 @@
 package ooad.arcane;
 
-import ooad.arcane.Adventurers.Adventurer;
-
 public class Main {
     public static void main(String[] args) {
         GameDriver current_game = new GameDriver();
+        BoardRenderer boardRenderer = new BoardRenderer();
         // Commands to access all the objects and their features
 //        for(Adventurer it: current_game.active_adventurers){
 //            System.out.println("health of my Adv is: " + it.getHealth());
@@ -22,20 +21,23 @@ public class Main {
 //            System.out.println("Can I access Creature object from Floor: " + i.creature.getActive_positions());
 //            System.out.println("---------------------------------------");
 //        }
-        for(int i=0; i<5;i++) {
+        for(int turn_number=1; turn_number<=5;turn_number++) {
 
             // Game turn
-            System.out.println("Turn: " + (i+1));
+//            System.out.println("Turn: " + (i+1));
 
             // Adventurers position
-            System.out.println("printing positions of Adventurers");
+//            System.out.println("printing positions of Adventurers");
             current_game.move_adventurers();
 
-            System.out.println("------------------------------------------------------");
+//            System.out.println("-----------------------------------------------------------------------------------------------");
 
             // Creatures position
-            System.out.println("printing positions of Creatures");
+//            System.out.println("printing positions of Creatures");
             current_game.move_creatures();
+//            System.out.println("-----------------------------------------------------------------------------------------------");
+            //update adventurer attributes
+            current_game.update_adventurer_attributes();
 
             // Combat or Treasure condition
             current_game.check_adventurer_creature_same_room(current_game.active_adventurers);
@@ -54,8 +56,8 @@ public class Main {
 //                System.out.println("List of Indices: " + lst);
 //                System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 //            }
-            System.out.println("##################################################################################################################");
-
+//            System.out.println("##################################################################################################################");
+            boardRenderer.print_game(turn_number, current_game);
         }
 
     }

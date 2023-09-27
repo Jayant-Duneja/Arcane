@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Aquarids extends Creature{
 
-    public Aquarids(String name, List<Integer> health,List<List<Integer>> initialPositions) {
-        super(name, health, initialPositions);
+    public Aquarids(String name,List<List<Integer>> initialPositions) {
+        super(name, initialPositions);
     }
     @Override
     public void movement(List<Adventurer> adventurers){

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Zephyrals extends Creature{
-    public Zephyrals(String name, List<Integer> health,List<List<Integer>> initialPositions) {
-        super(name, health, initialPositions);
+    public Zephyrals(String name,List<List<Integer>> initialPositions) {
+        super(name, initialPositions);
     }
 
     @Override

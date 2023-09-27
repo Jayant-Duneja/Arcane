@@ -59,15 +59,15 @@ public abstract class Adventurer {
     {
         this.treasure=this.treasure+1;
     }
-    void update_health()
+    public void under_attack()
     {
         if (Math.random() < this.dodge_chance) {
-            System.out.println("I have dodged the attack");
+//            System.out.println("I have dodged the attack");
         } else {
             this.health=this.health-2+this.damage_delta;
         }
     }
-    void update_attributes() {
+    public void update_attributes() {
     }
     public void movement(List<List<Integer>> possible_movements){
         Random random = new Random();
