@@ -14,6 +14,7 @@ import java.util.*;
 
 public class GameDriver {
     List<Adventurer> active_adventurers;
+    // We have 4 types of Creature objects. Each object has the 4 creatures as an attribute of the class
     List<Creature> active_creature_objects;
     List<Floor> floors;
     int treasure_found_so_far;
@@ -59,31 +60,23 @@ public class GameDriver {
 
     // Moving adventurers
     public void move_adventurers(){
-
+        // Get the connected rooms for the adventurer and move it to a random room out of these.
         List<Integer> current_room;
         List<List<Integer>> connected_rooms;
         int current_floor;
-
-
         for(Adventurer adv : this.active_adventurers){
-//            System.out.println("Adv Name: " + adv.getName());
             current_room = adv.getCurrent_room();
             current_floor = current_room.get(0);
             connected_rooms = this.floors.get(current_floor+1).getRoomConnections().get(current_room);
-
             //Random adventurer movement
             adv.movement(connected_rooms);
-//            System.out.println("Curr Room is: " + adv.getCurrent_room());
         }
-
     }
 
     // Moving creatures
     public void move_creatures(){
         for(Creature creature:this.active_creature_objects){
-//            System.out.println("Name: " + creature.getName());
             creature.movement(this.active_adventurers);
-//            System.out.println("New Positions: " + creature.getActive_positions());
         }
     }
 
@@ -95,16 +88,14 @@ public class GameDriver {
 
     // returns the indexes of all the creatures that are present in the same room as the
     // adventurer on the floor. we can access by floor.creature.active_pos.get(i)
-    // After this, we use these indices only for updating health and for fighting
+    // After this, we use these indices only for battles with the adventurers
     public List<Integer> get_creature_in_same_room(Adventurer adventurer) {
         List<Integer> creatures_in_same_room_indices = new ArrayList<>();
         List<Integer> adventurer_current_position = adventurer.getCurrent_room();
         int current_floor = adventurer_current_position.get(0);
         if(current_floor != -1) { // not checking for creatures if I am on the starting floor. Not going to do anything on current floor. Turn waste
             for (int i = 0; i < this.floors.get(current_floor + 1).getCreature().getActive_positions().size(); i++) {
-                //int current_creature_health = this.floors.get(current_floor+1).getCreature().getHealth().get(i);
                 List<Integer> current_creature_position = this.floors.get(current_floor + 1).getCreature().getActive_positions().get(i);
-                // this does not make any sense if I am removing creatures only. Changing this
                 if (current_creature_position.get(0) == adventurer_current_position.get(1)
                         && current_creature_position.get(1) == adventurer_current_position.get(2)) {
                     creatures_in_same_room_indices.add(i);
@@ -117,8 +108,7 @@ public class GameDriver {
     // Check if 'adventurer' and 'creature' are in same room.
     // From adventurer POV:- fight(): If same room ; searchForTreasure() : If empty room
     public void check_adventurer_creature_same_room(List<Adventurer> adventurers){
-        // this for loop giving exception because we cannot delete from a list while we traversing it with iterator.
-        // Hence removing adventurers like this.
+        // Creating a list of adventurers which might be deleted
         List<Adventurer> adventurers_to_be_removed = new ArrayList<>();
         for(Adventurer adv : adventurers){
             List<Integer> creaturesInSameRoom = get_creature_in_same_room(adv);
@@ -160,11 +150,9 @@ public class GameDriver {
 
         //Adventurer loses the fight
         else if(adventurerDiceScore < creatureDiceScore){
+            // Updating the attributes based on the resonance and the discord that the adventurer has
             adventurer.under_attack();
-            //Adventurer can dodge the attack
             if(adventurer.getHealth() <= 0){
-                System.out.println("Adventurer " + adventurer.getName() + " has been eliminated :(");
-//                active_adventurers.remove(adventurer);
                 return false;
             }
         }
@@ -195,22 +183,13 @@ public class GameDriver {
 
     //Remove the creature from the active list
     private void killCreature(Creature creature, int creatureInFightIdx) {
-        // Will this modify the creature active positions or change this new variable that we have defined locally in this context.
-//        List<List<Integer>> activePositions = creature.getActive_positions();
-
         // update the health for the creature as well
         if (creatureInFightIdx >= 0 && creatureInFightIdx < creature.getActive_positions().size()) {
             creature.getActive_positions().remove(creatureInFightIdx);
         }
     }
-
-    //Check if adventurer can dodge the attack
-//    private boolean canDodgeAttack(Adventurer adventurer){
-//        double randomValue = Math.random();
-//        return randomValue <= adventurer.getDodge_chance();
-//    }
-
     // game terminate condition; true: game stops
+    // Either we collect 50 treasures, or there are no creatures or adventurers.
     public boolean isGameOver() {
 
         // Elimination survey
@@ -220,12 +199,6 @@ public class GameDriver {
         for(Creature creature: this.active_creature_objects){
             noActiveCreatures = noActiveCreatures && creature.is_empty();
         }
-//
-//        // Treasure count
-//        int totalTreasuresFound = 0;
-//        for (Adventurer adventurer : active_adventurers) {
-//            totalTreasuresFound += adventurer.getTreasure();
-//        }
         boolean enoughTreasuresFound = this.treasure_found_so_far >= 50;
 
         return allAdventurersEliminated || enoughTreasuresFound || noActiveCreatures;

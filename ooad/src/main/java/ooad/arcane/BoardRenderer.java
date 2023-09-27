@@ -49,8 +49,9 @@ public class BoardRenderer {
                     adv_string += ",";
                 }
             }
-            System.out.print("|    "  + adv_string + ":" + creature_string + "     |");
-            System.out.println("+------------------------------+------------------------------+------------------------------+\\n");
+            System.out.println("|    "  + adv_string + ":" + creature_string + "     |");
+            System.out.println("+------------------------------+------------------------------+------------------------------+");
+            System.out.println("\n");
 
         }
         else{
@@ -77,7 +78,8 @@ public class BoardRenderer {
                 }
                 System.out.println("|");
             }
-            System.out.println("+------------------------------+------------------------------+------------------------------+\\n");
+            System.out.println("+------------------------------+------------------------------+------------------------------+");
+            System.out.println("\n");
 
         }
 

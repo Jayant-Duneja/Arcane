@@ -11,16 +11,7 @@ public class Aquarids extends Creature{
     }
     @Override
     public void movement(List<Adventurer> adventurers){
-        // Previously, they will never move as they cannot be not on the same floor
-        // and adjacent to each other. both cases cannot happen.
         moveAquarids(adventurers);
-        //Check if any adventurers are on water floor
-//        boolean adventurerOnSameFloor = isSameFloor(adventurers);
-//
-//        //If adventurer is not on the same floor, then we can move
-//        if (!adventurerOnSameFloor) {
-//            moveAquarids(adventurers);
-//        }
     }
 
 
@@ -34,8 +25,7 @@ public class Aquarids extends Creature{
             }
         }
     }
-
-
+    // Check if the Aquarid is adjacent to the Adventurer.
     private boolean isAdjacentToAdventurer(Adventurer adventurer, List<Integer> aquaridPosition) {
         //Adventurer :: [floorId, xPos, yPos]
         //Creature :: [[xPos, yPos], [xPos, yPos], [xPos, yPos], [xPos, yPos]]
@@ -45,15 +35,14 @@ public class Aquarids extends Creature{
         int yDiff = Math.abs(adventurer.getCurrent_room().get(2) - aquaridPosition.get(1));
         return xDiff + yDiff == 1; // Checking if creature and adventurer is adjacent (left, right, top, or bottom)
     }
-
+    // Move to the adjacent room that the Adventurer is present in
     private void moveToAdjacentAdventurer(Adventurer adventurer, List<Integer> aquaridPosition) {
         aquaridPosition.set(0, adventurer.getCurrent_room().get(1));
         aquaridPosition.set(1, adventurer.getCurrent_room().get(2));
     }
 
-    //Checking if adventurer and creatures is on same floor
+    // Checking if the Adventurer is on the same floor as Aquarids
     private boolean isSameFloor(Adventurer adventurer) {
-//        for (Adventurer adv : adventurers) {
         if (adventurer.getCurrent_room().get(0) == 2) {
                 return true;
             }

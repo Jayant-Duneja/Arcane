@@ -7,6 +7,7 @@ public class Terra_Voyager extends Adventurer {
             , int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta) {
         super(name, health, dodge_chance, current_room, treasure, damage_delta,dice_roll_combat_delta, dice_roll_treasure_delta);
     }
+    // Updating the attributes based on the resonance and the discord that the adventurer has
     @Override
     public void update_attributes(){
         int floor_id = this.getCurrent_room().get(0);
