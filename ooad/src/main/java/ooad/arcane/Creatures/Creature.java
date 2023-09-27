@@ -11,29 +11,18 @@ public abstract class Creature {
     @Getter
     @Setter
     private String name;
-    @Getter
-    @Setter
-    private List<Integer> health;
 
     @Getter
     @Setter
     private List<List<Integer>> active_positions;
 
-    public Creature(String name, List<Integer> health,List<List<Integer>> active_positions){
+    public Creature(String name, List<List<Integer>> active_positions){
         this.name=name;
-        this.health=health;
         this.active_positions=active_positions;
     }
     public void movement(List<Adventurer> adventurers){}
-    public boolean are_present(){
-        boolean flag=false;
-        for(Integer i:this.health){
-            if(i == 1){
-                flag=true;
-                break;
-            }
-        }
-        return flag;
+    public boolean is_empty(){
+        return this.active_positions.isEmpty();
     }
 
 }

@@ -59,16 +59,19 @@ public abstract class Adventurer {
     {
         this.treasure=this.treasure+1;
     }
-    void update_health()
+    // This function is called when the Adventurer is under attack from a creature.
+    public void under_attack()
     {
         if (Math.random() < this.dodge_chance) {
-            System.out.println("I have dodged the attack");
         } else {
             this.health=this.health-2+this.damage_delta;
         }
     }
-    void update_attributes() {
+    public void update_attributes() {
     }
+
+    // For each room, we have a list of connected rooms that the adventurer can go to. We choose 1 random room out of
+    // this list as the next room.
     public void movement(List<List<Integer>> possible_movements){
         Random random = new Random();
         int outerListSize = possible_movements.size();

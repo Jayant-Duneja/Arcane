@@ -14,32 +14,35 @@ import java.util.*;
 
 public class GameDriver {
     List<Adventurer> active_adventurers;
+    // We have 4 types of Creature objects. Each object has the 4 creatures as an attribute of the class
     List<Creature> active_creature_objects;
     List<Floor> floors;
+    int treasure_found_so_far;
     public GameDriver() {
         create_adventurers();
         create_creature_objects();
         create_floors();
+        treasure_found_so_far=0;
     }
 
     // Initialize Adventurers
     public void create_adventurers(){
         this.active_adventurers = new ArrayList<>();
         // Creating the 4 adventurers and adding them to the active adventurers list
-        this.active_adventurers.add(new Ember_Knight("Ember Knight", 5, 0.2, List.of(-1, 0, 0), 0, 0, 0, 0));
-        this.active_adventurers.add(new Mist_Walker("Mist Walker", 3, 0.5, List.of(-1, 0, 0), 0, 0, 0, 0));
-        this.active_adventurers.add(new Terra_Voyager("Terra Voyager", 7, 0.1, List.of(-1, 0, 0), 0, 0, 0, 0));
-        this.active_adventurers.add(new Zephyr_Rogue("Zephyr Rogue", 3, 0.25, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Ember_Knight("EmberKnight", 5, 0.2, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Mist_Walker("MistWalker", 3, 0.5, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Terra_Voyager("TerraVoyager", 7, 0.1, List.of(-1, 0, 0), 0, 0, 0, 0));
+        this.active_adventurers.add(new Zephyr_Rogue("ZephyrRogue", 3, 0.25, List.of(-1, 0, 0), 0, 0, 0, 0));
     }
 
     // Initialize Creatures
     public void create_creature_objects(){
         this.active_creature_objects = new ArrayList<>();
         // We are assuming that the 4 creatures on each floor spawn on the 4 rooms on the edges
-        this.active_creature_objects.add(new Terravores("TV", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
-        this.active_creature_objects.add(new Fireborns("FB", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
-        this.active_creature_objects.add(new Aquarids("AQ", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
-        this.active_creature_objects.add(new Zephyrals("ZP", Collections.nCopies(4, 1),new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
+        this.active_creature_objects.add(new Terravores("TerraVores", new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
+        this.active_creature_objects.add(new Fireborns("FireBorns", new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
+        this.active_creature_objects.add(new Aquarids("Aquarids", new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
+        this.active_creature_objects.add(new Zephyrals("Zephyrals", new ArrayList<>(Arrays.asList(Arrays.asList(0, 0), Arrays.asList(0, 2), Arrays.asList(2, 0), Arrays.asList(2, 2)))));
     }
 
     // Initialize Floors
@@ -57,49 +60,46 @@ public class GameDriver {
 
     // Moving adventurers
     public void move_adventurers(){
-
+        // Get the connected rooms for the adventurer and move it to a random room out of these.
         List<Integer> current_room;
         List<List<Integer>> connected_rooms;
         int current_floor;
-
-
         for(Adventurer adv : this.active_adventurers){
-            System.out.println("Adv Name: " + adv.getName());
             current_room = adv.getCurrent_room();
             current_floor = current_room.get(0);
             connected_rooms = this.floors.get(current_floor+1).getRoomConnections().get(current_room);
-
             //Random adventurer movement
             adv.movement(connected_rooms);
-            System.out.println("Curr Room is: " + adv.getCurrent_room());
         }
-
     }
 
     // Moving creatures
     public void move_creatures(){
         for(Creature creature:this.active_creature_objects){
-            System.out.println("Name: " + creature.getName());
-            System.out.println("Prev positions are: " + creature.getActive_positions());
             creature.movement(this.active_adventurers);
-            System.out.println("New Positions: " + creature.getActive_positions());
+        }
+    }
+
+    public void update_adventurer_attributes(){
+        for(Adventurer adv: this.active_adventurers){
+            adv.update_attributes();
         }
     }
 
     // returns the indexes of all the creatures that are present in the same room as the
     // adventurer on the floor. we can access by floor.creature.active_pos.get(i)
-    // After this, we use these indices only for updating health and for fighting
+    // After this, we use these indices only for battles with the adventurers
     public List<Integer> get_creature_in_same_room(Adventurer adventurer) {
         List<Integer> creatures_in_same_room_indices = new ArrayList<>();
         List<Integer> adventurer_current_position = adventurer.getCurrent_room();
         int current_floor = adventurer_current_position.get(0);
-        for(int i=0; i < this.floors.get(current_floor+1).getCreature().getActive_positions().size();i++){
-            int current_creature_health = this.floors.get(current_floor+1).getCreature().getHealth().get(i);
-            List<Integer> current_creature_position = this.floors.get(current_floor+1).getCreature().getActive_positions().get(i);
-            if(current_creature_health == 1 && current_creature_position.get(0) == adventurer_current_position.get(1)
-                && current_creature_position.get(1) == adventurer_current_position.get(2))
-            {
-                creatures_in_same_room_indices.add(i);
+        if(current_floor != -1) { // not checking for creatures if I am on the starting floor. Not going to do anything on current floor. Turn waste
+            for (int i = 0; i < this.floors.get(current_floor + 1).getCreature().getActive_positions().size(); i++) {
+                List<Integer> current_creature_position = this.floors.get(current_floor + 1).getCreature().getActive_positions().get(i);
+                if (current_creature_position.get(0) == adventurer_current_position.get(1)
+                        && current_creature_position.get(1) == adventurer_current_position.get(2)) {
+                    creatures_in_same_room_indices.add(i);
+                }
             }
         }
         return creatures_in_same_room_indices;
@@ -108,65 +108,64 @@ public class GameDriver {
     // Check if 'adventurer' and 'creature' are in same room.
     // From adventurer POV:- fight(): If same room ; searchForTreasure() : If empty room
     public void check_adventurer_creature_same_room(List<Adventurer> adventurers){
+        // Creating a list of adventurers which might be deleted
+        List<Adventurer> adventurers_to_be_removed = new ArrayList<>();
         for(Adventurer adv : adventurers){
             List<Integer> creaturesInSameRoom = get_creature_in_same_room(adv);
             int current_floor = adv.getCurrent_room().get(0);
             Creature creature = floors.get(current_floor + 1).getCreature();
 
             // Creature found
-            if(!creaturesInSameRoom.isEmpty()){
+            if(current_floor != -1 && !creaturesInSameRoom.isEmpty()){
                 for(int creaturePositionIndex : creaturesInSameRoom){
                     // Fight adventurer with creature
-                    fight(adv, creature, creaturePositionIndex);
+                    // Fight flag confirms that an already dead adventurer is not fighting
+                    boolean fight_flag = fight(adv, creature, creaturePositionIndex);
+                    if(!fight_flag){
+                        adventurers_to_be_removed.add(adv);
+                        break;
+                    }
                 }
             }
 
             // Empty room
-            else{
+            else if(current_floor != -1){
                 searchForTreasure(adv);
             }
         }
+        for(Adventurer adv: adventurers_to_be_removed){
+            this.active_adventurers.remove(adv);
+        }
     }
 
-    public void fight(Adventurer adventurer, Creature creature, int creatureInFightIdx){
+    public boolean fight(Adventurer adventurer, Creature creature, int creatureInFightIdx){
 
-        int adventurerDiceScore = roll_dice();
+        int adventurerDiceScore = roll_dice() + adventurer.getDice_roll_combat_delta();
         int creatureDiceScore = roll_dice();
 
-        System.out.println("Adventurer " + adventurer.getName() + " rolled " + adventurerDiceScore);
-        System.out.println("Creature " + creature.getName() + " rolled " + creatureDiceScore);
-
         // Adventurer wins the fight
-        if(adventurerDiceScore >= creatureDiceScore){
-            System.out.println("Adventurer " + adventurer.getName() + " wins the fight! " + creature.getName() + " got killed.");
+        if(adventurerDiceScore > creatureDiceScore){
             killCreature(creature, creatureInFightIdx);
         }
 
-        //Adventurer looses the fight
-        else{
-            //Adventurer can dodge the attack
-            if(canDodgeAttack(adventurer)){
-                System.out.println("Adventurer " + adventurer.getName() + " dodged!");
-                return; // nothing happens
-            }
-
-            //Adventurer cannot dodge the attack
-            else{
-                adventurer.setHealth(adventurer.getHealth() - 2);
-
-                //Eliminate adventurer
-                if(adventurer.getHealth() <= 0){
-                    System.out.println("Adventurer " + adventurer.getName() + " has been eliminated :(");
-                    active_adventurers.remove(adventurer);
-                }
+        //Adventurer loses the fight
+        else if(adventurerDiceScore < creatureDiceScore){
+            // Updating the attributes based on the resonance and the discord that the adventurer has
+            adventurer.under_attack();
+            if(adventurer.getHealth() <= 0){
+                return false;
             }
         }
+        return true;
     }
 
+
     public void searchForTreasure(Adventurer adventurer){
-        int sumOfDieRoll = roll_dice();
+        int sumOfDieRoll = roll_dice() + adventurer.getDice_roll_treasure_delta();
         if(sumOfDieRoll >= 11){
             adventurer.setTreasure(adventurer.getTreasure()+1);
+            //updating the global treasure only. not using adventurer treasure
+            this.treasure_found_so_far+=1;
         }
     }
 
@@ -184,33 +183,23 @@ public class GameDriver {
 
     //Remove the creature from the active list
     private void killCreature(Creature creature, int creatureInFightIdx) {
-        List<List<Integer>> activePositions = creature.getActive_positions();
-
-        // health ko update
-        if (creatureInFightIdx >= 0 && creatureInFightIdx < activePositions.size()) {
-            activePositions.remove(creatureInFightIdx);
+        // update the health for the creature as well
+        if (creatureInFightIdx >= 0 && creatureInFightIdx < creature.getActive_positions().size()) {
+            creature.getActive_positions().remove(creatureInFightIdx);
         }
     }
-
-    //Check if adventurer can dodge the attack
-    private boolean canDodgeAttack(Adventurer adventurer){
-        double randomValue = Math.random();
-        return randomValue <= adventurer.getDodge_chance();
-    }
-
     // game terminate condition; true: game stops
+    // Either we collect 50 treasures, or there are no creatures or adventurers.
     public boolean isGameOver() {
 
         // Elimination survey
         boolean allAdventurersEliminated = active_adventurers.isEmpty();
-        boolean noActiveCreatures = active_creature_objects.isEmpty();
-
-        // Treasure count
-        int totalTreasuresFound = 0;
-        for (Adventurer adventurer : active_adventurers) {
-            totalTreasuresFound += adventurer.getTreasure();
+        // For creatures, we would need to check the active positions of the creature object and not the active_creature_objects of the arrays
+        boolean noActiveCreatures = true;
+        for(Creature creature: this.active_creature_objects){
+            noActiveCreatures = noActiveCreatures && creature.is_empty();
         }
-        boolean enoughTreasuresFound = totalTreasuresFound >= 50;
+        boolean enoughTreasuresFound = this.treasure_found_so_far >= 50;
 
         return allAdventurersEliminated || enoughTreasuresFound || noActiveCreatures;
     }

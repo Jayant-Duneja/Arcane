@@ -21,6 +21,8 @@ public class Floor {
         this.creature=creature;
         makeConnections();
     }
+    // Create a Hashmap which contains the connected rooms for each room. These connected rooms will be passed to the Adventurer
+    // for its next movement.
     private void makeConnections(){
         if(this.floor_id == -1){
             List<Integer> currentRoom = Arrays.asList(-1, 0, 0);
@@ -55,10 +57,6 @@ public class Floor {
                 }
             }
         }
-    }
-
-    public void get_creature_details(){
-
     }
 }
 

@@ -7,8 +7,8 @@ import java.util.*;
 public class Fireborns extends Creature {
     private boolean movingClockwise;
 
-    public Fireborns(String name, List<Integer> health,List<List<Integer>> initialPositions) {
-        super(name, health, initialPositions);
+    public Fireborns(String name,List<List<Integer>> initialPositions) {
+        super(name,initialPositions);
         this.movingClockwise = new Random().nextBoolean();
     }
 
