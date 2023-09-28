@@ -1,4 +1,3 @@
-/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home/bin/java -javaagent:/Users/tilaksingh/Desktop/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=50409:/Users/tilaksingh/Desktop/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Users/tilaksingh/Desktop/CU/Fall-23-OOAD/project-2-arcane-is124/ooad/target/classes:/Users/tilaksingh/.m2/repository/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar ooad.arcane.Main
 ----------------------------------Turn-1----------------------------------
 
 
