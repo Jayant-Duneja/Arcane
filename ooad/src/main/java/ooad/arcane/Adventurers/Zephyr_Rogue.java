@@ -2,6 +2,7 @@ package ooad.arcane.Adventurers;
 
 import java.util.List;
 
+// Inheritance :: Zephyr_Rogue inherits Adventurer
 public class Zephyr_Rogue extends Adventurer {
 
     public Zephyr_Rogue(String name, int health, double dodge_chance, List<Integer> current_room, int treasure

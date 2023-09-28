@@ -2,6 +2,7 @@ package ooad.arcane.Adventurers;
 
 import java.util.List;
 
+// Inheritance :: Mist_Walker inherits Adventurer
 public class Mist_Walker extends Adventurer {
 
     public Mist_Walker(String name, int health, double dodge_chance, List<Integer> current_room, int treasure

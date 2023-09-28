@@ -2,6 +2,7 @@ package ooad.arcane.Adventurers;
 
 import java.util.List;
 
+// Inheritance :: Terra_Voyager inherits Adventurer
 public class Terra_Voyager extends Adventurer {
     public Terra_Voyager(String name, int health, double dodge_chance, List<Integer> current_room, int treasure
             , int damage_delta, int dice_roll_combat_delta, int dice_roll_treasure_delta) {

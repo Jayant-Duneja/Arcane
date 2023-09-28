@@ -5,6 +5,7 @@ import ooad.arcane.Adventurers.Adventurer;
 import java.util.List;
 import java.util.Random;
 
+// Inheritance :: Zephyrals inherits Creature
 public class Zephyrals extends Creature{
     public Zephyrals(String name,List<List<Integer>> initialPositions) {
         super(name, initialPositions);

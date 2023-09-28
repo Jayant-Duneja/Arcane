@@ -4,6 +4,7 @@ import ooad.arcane.Adventurers.Adventurer;
 
 import java.util.List;
 
+// Inheritance :: Aquarids inherits Creature
 public class Aquarids extends Creature{
 
     public Aquarids(String name,List<List<Integer>> initialPositions) {

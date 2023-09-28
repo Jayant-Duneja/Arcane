@@ -5,14 +5,16 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Random;
-//-1: Starting Floor
-//        0: Earth Floor
-//        1: Fire Floor
-//        2: Water Floor
-//        3: Air Floor
 
-//@Getter
-//@Setter
+// FLOOR RULES :-
+// -1: Starting Floor
+// 0: Earth Floor
+// 1: Fire Floor
+// 2: Water Floor
+// 3: Air Floor
+
+
+// Abstraction:: Abstracting this class allowed us to define a common interface for all different types of adventurer.
 public abstract class Adventurer {
 
     public Adventurer(String name, int health, double dodge_chance, List<Integer> current_room, int treasure,
@@ -27,6 +29,9 @@ public abstract class Adventurer {
         this.dice_roll_treasure_delta=dice_roll_treasure_delta;
         this.damage_delta=damage_delta;
     }
+
+    // Encapsulation:: Protecting the data and methods from outer class to access using 'private' access specifier.
+    // Access to this is only applicable through Getters and Setters.
     @Getter
     @Setter
     private String name;
@@ -70,6 +75,9 @@ public abstract class Adventurer {
     public void update_attributes() {
     }
 
+
+    // Polymorphism (method-overloading) :: Both creature and adventure class uses the same function name,
+    // but has different parameters passed and has different.
     // For each room, we have a list of connected rooms that the adventurer can go to. We choose 1 random room out of
     // this list as the next room.
     public void movement(List<List<Integer>> possible_movements){
