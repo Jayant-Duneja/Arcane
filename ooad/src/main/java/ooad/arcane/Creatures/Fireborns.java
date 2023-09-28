@@ -79,13 +79,13 @@ public class Fireborns extends Creature {
             currentRoomX++;
         } else {
             if (currentRoomX == 0) {
-                currentRoomX++;
-            } else if (currentRoomY == 0) {
-                currentRoomY--;
-            } else if (currentRoomX == 2) {
-                currentRoomX--;
-            } else if (currentRoomY == 2) {
                 currentRoomY++;
+            } else if (currentRoomY == 0) {
+                currentRoomX--;
+            } else if (currentRoomX == 2) {
+                currentRoomY--;
+            } else if (currentRoomY == 2) {
+                currentRoomX++;
             }
         }
 

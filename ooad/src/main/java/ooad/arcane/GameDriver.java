@@ -166,7 +166,8 @@ public class GameDriver {
     public void searchForTreasure(Adventurer adventurer){
         int sumOfDieRoll = roll_dice() + adventurer.getDice_roll_treasure_delta();
         if(sumOfDieRoll >= 11){
-            adventurer.setTreasure(adventurer.getTreasure()+1);
+//            adventurer.setTreasure(adventurer.getTreasure()+1);
+            adventurer.update_treasure();
             //updating the global treasure only. not using adventurer treasure
             this.treasure_found_so_far+=1;
         }

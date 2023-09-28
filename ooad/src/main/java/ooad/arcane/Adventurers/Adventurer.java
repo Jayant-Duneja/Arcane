@@ -56,11 +56,7 @@ public abstract class Adventurer {
     @Getter
     @Setter
     private int treasure;
-    public  boolean is_alive()
-    {
-        return this.health > 0;
-    }
-    void update_treasure()
+    public void update_treasure()
     {
         this.treasure=this.treasure+1;
     }
