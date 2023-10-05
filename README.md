@@ -7,6 +7,8 @@ Team Members:
 
 Java Version: - 17
 
+Project 3.1 - UML Diagram for 3.1 has been submitted with the name of UML_3.1.pdf
+
 Additional Assumptions:
  - For our code, these are the floor id we are considering:
    - -1: Starting Floor
