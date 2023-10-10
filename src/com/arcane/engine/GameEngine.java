@@ -73,8 +73,10 @@ public class GameEngine {
       System.out.println(
               adventurer.getClass().getSimpleName()
                       + " - "
-                      + adventurer.getTreasureCount()
+                      + adventurer.getTreasure_bag().get_treasures()
                       + " Treasure(s) - "
+                      + adventurer.getTreasure_bag().get_value()
+                      + " Treasure Value - "
                       + (adventurer.getHealth())
                       + " Health Remaining");
     }

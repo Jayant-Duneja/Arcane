@@ -1,5 +1,6 @@
 package com.arcane.board;
 
+import com.arcane.Decorator.*;
 import com.arcane.Element;
 import com.arcane.board.rooms.Room;
 import com.arcane.board.rooms.StartingRoom;
@@ -17,6 +18,7 @@ public class GameBoard {
     initialiseBoard();
     addAdventures();
     addCreatures();
+    addTreasures();
   }
 
   private void initialiseBoard() {
@@ -83,6 +85,22 @@ public class GameBoard {
     }
     creatures.forEach(
         creature -> this.roomMap.get(creature.getCurrentRoomId()).addCreature(creature));
+  }
+  private void addTreasures(){
+    List<Treasure_Decorator> treasures = new ArrayList<>();
+    for(int i=0;i<4;i++){
+      treasures.add(new Armor(null));
+      treasures.add(new Elixir(null));
+      treasures.add(new Ether(null));
+      treasures.add(new Portal(null));
+      treasures.add(new Potion(null));
+      treasures.add(new Sword(null));
+    }
+    for(int i=0; i< 15; i++){
+      treasures.add(new Gem(null));
+    }
+    treasures.forEach(
+            treasure -> this.roomMap.get(treasure.getRoom()).addTreasure(treasure));
   }
 
   public Room getRoom(String currentRoomId) {
