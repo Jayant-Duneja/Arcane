@@ -4,6 +4,7 @@ import com.arcane.Element;
 import com.arcane.board.GameBoard;
 import com.arcane.util.Constants;
 import com.arcane.util.RandomHelper;
+
 import java.util.ArrayList;
 
 public class FireBorn extends Creature {

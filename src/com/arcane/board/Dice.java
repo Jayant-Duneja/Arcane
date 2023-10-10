@@ -1,6 +1,7 @@
 package com.arcane.board;
 
 import com.arcane.util.RandomHelper;
+
 import java.util.Arrays;
 import java.util.List;
 

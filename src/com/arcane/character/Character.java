@@ -8,7 +8,7 @@ public abstract class Character {
   // Initial room
   protected String currentRoomId;
 
-  public void performAction(GameBoard gameBoard){
+  public void performAction(GameBoard gameBoard) {
     if (isFightScenario(gameBoard)) {
       fight(gameBoard);
     } else {
@@ -27,15 +27,15 @@ public abstract class Character {
   }
 
   protected boolean isFightScenario(GameBoard gameBoard) {
-    // It is fight scenario if there is at least one creature and at least one adventurer in the room
+    // It is fight scenario if there is at least one creature and at least one adventurer in the
+    // room
     return !gameBoard.getRoom(currentRoomId).getAdventurers().isEmpty()
-        && !gameBoard.getRoom(currentRoomId).getCreatures().isEmpty();
+            && !gameBoard.getRoom(currentRoomId).getCreatures().isEmpty();
   }
 
   public String getCurrentRoomId() {
     return currentRoomId;
   }
-
 
   public void setCurrentRoomId(String currentRoomId) {
     this.currentRoomId = currentRoomId;

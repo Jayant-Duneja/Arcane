@@ -6,6 +6,7 @@ import com.arcane.board.rooms.StartingRoom;
 import com.arcane.character.adventurer.*;
 import com.arcane.character.creature.*;
 import com.arcane.util.Constants;
+
 import java.util.*;
 
 public class GameBoard {
@@ -22,6 +23,7 @@ public class GameBoard {
     roomMap = new LinkedHashMap<>();
     Map<Element, Floor> elementalFloors = createElementalFloors();
     StartingRoom startingRoom = createStartingRoom(elementalFloors);
+    addStartingRoomConnections(elementalFloors, startingRoom);
     populateRoomMap(startingRoom, elementalFloors);
   }
 
@@ -33,6 +35,15 @@ public class GameBoard {
           roomMap.put(room.getRoomId(), room);
         }
       }
+    }
+  }
+
+  private void addStartingRoomConnections(
+      Map<Element, Floor> elementalFloors, StartingRoom startingRoom) {
+    for (Floor floor : elementalFloors.values()) {
+      Room room = floor.getRoom(Constants.VERTICAL_ROOMS / 2, Constants.HORIZONTAL_ROOMS / 2);
+      List<Room> connectedRooms = room.getConnectedRooms();
+      connectedRooms.add(startingRoom);
     }
   }
 
@@ -64,7 +75,7 @@ public class GameBoard {
 
   private void addCreatures() {
     List<Creature> creatures = new ArrayList<>();
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
       creatures.add(new FireBorn());
       creatures.add(new Aquarid());
       creatures.add(new TerraVore());
