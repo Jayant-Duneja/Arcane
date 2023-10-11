@@ -9,6 +9,7 @@ import com.arcane.board.GameBoard;
 import com.arcane.board.rooms.Room;
 import com.arcane.character.Character;
 import com.arcane.character.creature.Creature;
+import com.arcane.expertise.*;
 import com.arcane.util.Constants;
 import com.arcane.util.RandomHelper;
 
@@ -28,8 +29,9 @@ public abstract class Adventurer extends Character {
   private int baseCombatRoll = 0;
   private int baseCreatureCombatRoll=0;
   private int health;
-  private int combatExpertiseBonus;
-  private int searchExpertiseBonus;
+  private int combatExpertiseBonus = 0;
+  private int searchExpertiseBonus = 0;
+  IExpertise expertise;
 
   private int creatureDamage = 2;
   private Map<String, Integer> treasure_inventory;
@@ -46,8 +48,7 @@ public abstract class Adventurer extends Character {
     this.discordElement = discordElement;
     this.acronym = acronym;
     this.currentRoomId = Constants.STARTING_ROOM_ID;
-    this.combatExpertiseBonus = 0; // start from novice
-    this.searchExpertiseBonus = 0; // start from novice
+    expertise = new Novice();
     this.treasure_inventory = new HashMap<>(){
       {
         put("Armor", 0);
@@ -138,9 +139,34 @@ public abstract class Adventurer extends Character {
         // if creature loses then remove it from current room
         gameBoard.getRoom(this.currentRoomId).removeCreature(creature);
 
-        // In case of adventurer victory, increase the combatExperience
-        this.combatExpertiseBonus++;
-        setCombatExpertiseBonus(this.combatExpertiseBonus);
+        // Update the adventurer Combat Expertise
+        UpdateExpertise(this.expertise.getId());
+      }
+    }
+  }
+  private void UpdateExpertise(int previousExpertiseLevel){
+
+    int newExpertiseLevel = previousExpertiseLevel + 1;
+    increaseExpertiseLevel(newExpertiseLevel);
+
+    this.combatExpertiseBonus += expertise.combatBonus();
+  }
+
+  private void increaseExpertiseLevel(int newExpertiseId) {
+    if (newExpertiseId < 3) {
+      switch (newExpertiseId) {
+        case 1:
+          expertise = new Seasoned();
+          break;
+        case 2:
+          expertise = new Veteran();
+          break;
+        case 3:
+          expertise = new Master();
+          break;
+        default:
+          expertise = new Novice();
+          break;
       }
     }
   }
@@ -241,14 +267,6 @@ public abstract class Adventurer extends Character {
   protected abstract void elementalDiscord();
 
   protected abstract void elementalReset();
-
-  public void setCombatExpertiseBonus(int bonus){
-    this.combatExpertiseBonus = bonus;
-  }
-
-  public void setSearchExpertiseBonus(int bonus){
-    this.searchExpertiseBonus = bonus;
-  }
 
   private boolean canUsePortal() {
 
