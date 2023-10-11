@@ -1,5 +1,8 @@
 package com.arcane.engine;
 
+import com.arcane.Observer.Observer.Logger;
+import com.arcane.Observer.Observer.Tracker;
+import com.arcane.Observer.Subject.ConcreteSubject;
 import com.arcane.board.GameBoard;
 import com.arcane.character.adventurer.Adventurer;
 import com.arcane.character.creature.Creature;
@@ -11,6 +14,9 @@ public class GameEngine {
   private List<Adventurer> adventurers;
   private GameBoard gameBoard;
   private int turn;
+  private ConcreteSubject currentSubject;
+  private Logger logger;
+  private Tracker tracker;
 
   private List<Creature> creatures;
 
@@ -21,15 +27,24 @@ public class GameEngine {
     this.turn = 0;
     this.adventurers.addAll(gameBoard.getRoom(Constants.STARTING_ROOM_ID).getAdventurers());
     this.creatures = gameBoard.getRemainingCreatures();
+    currentSubject = new ConcreteSubject();
+    logger = new Logger();
+    tracker = new Tracker();
+    currentSubject.register_observer(tracker);
   }
 
   public String simulateGame(Boolean shouldPrint) {
     printGame(shouldPrint);
     // Run the game until game over condition is achieved
     while (!isGameOver()) {
+      currentSubject.clear_previous_turn_events();
+      currentSubject.remove_observer(logger);
+      logger.instantiate(turn);
+      currentSubject.register_observer(logger);
       // perform a turn and then print board
       performTurn();
       printGame(shouldPrint);
+      currentSubject.notify_all_observers();
     }
     // If game ends print results
     return printGameResults();
@@ -87,7 +102,7 @@ public class GameEngine {
   // Step2: Perform action for all creatures while checking if game over is achieved
   public void performTurn() {
     for (Adventurer adventurer : adventurers) {
-      adventurer.performAction(gameBoard);
+      adventurer.performAction(gameBoard, currentSubject);
       creatures = gameBoard.getRemainingCreatures();
       if (isGameOver()) {
         break;
@@ -95,7 +110,7 @@ public class GameEngine {
     }
 
     for (Creature creature : creatures) {
-      creature.performAction(gameBoard);
+      creature.performAction(gameBoard, currentSubject);
       if (isGameOver()) {
         break;
       }
