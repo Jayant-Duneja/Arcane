@@ -4,6 +4,7 @@ import com.arcane.Decorator.Treasure;
 import com.arcane.Decorator.Treasure_Bag;
 import com.arcane.Decorator.Treasure_Decorator;
 import com.arcane.Element;
+import com.arcane.Observer.Event;
 import com.arcane.Observer.EventType;
 import com.arcane.Observer.Subject.ConcreteSubject;
 import com.arcane.board.Dice;
@@ -102,7 +103,7 @@ public abstract class Adventurer extends Character {
   protected void move(GameBoard gameBoard,ConcreteSubject concreteSubject) {
 
     if(canUsePortal()) {
-      usePortal(gameBoard);
+      usePortal(gameBoard, concreteSubject);
     }
     else {
 //       // Remove adventurer from current room
@@ -323,7 +324,7 @@ public abstract class Adventurer extends Character {
   }
 
 
-  protected void usePortal(GameBoard gameBoard) {
+  protected void usePortal(GameBoard gameBoard, ConcreteSubject concreteSubject) {
 
     // Get the current room
     Room currentRoom = gameBoard.getRoom(currentRoomId);
@@ -367,11 +368,10 @@ public abstract class Adventurer extends Character {
     currentRoom.getAdventurers().remove(this);
     currentRoomId = newRoomID;
     randomRoom.addAdventurer(this);
+    concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, currentRoomId);
+    handleElementalEffects(randomRoom, concreteSubject);
 
-
-    handleElementalEffects(randomRoom);
-
-    postMove(gameBoard);
+    postMove(gameBoard, concreteSubject);
   }
 
   private Element getRandomElement(Element currentElement) {
