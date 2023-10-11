@@ -255,8 +255,9 @@ public abstract class Adventurer extends Character {
     //Check if adventurer has Portal treasure and Combat Expertise bonus greater than 1
     boolean isPortalPresent = this.treasure_inventory.get("Portal") > 0;
     boolean isCombatExpertiseBonusGreaterThanOne = this.combatExpertiseBonus > 1;
+    boolean isHealthGreaterThanZero = this.health > 0;
 
-    if(isPortalPresent && isCombatExpertiseBonusGreaterThanOne){
+    if(isPortalPresent && isCombatExpertiseBonusGreaterThanOne && isHealthGreaterThanZero){
       this.treasure_inventory.put("Portal", this.treasure_inventory.get("Portal")-1);
       return true;
     }
