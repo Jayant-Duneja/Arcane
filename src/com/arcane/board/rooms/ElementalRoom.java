@@ -2,7 +2,6 @@ package com.arcane.board.rooms;
 
 import com.arcane.Element;
 
-
 public class ElementalRoom extends Room {
 
   private final Element element;

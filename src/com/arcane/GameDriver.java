@@ -34,13 +34,13 @@ public class GameDriver {
       }
     }
     System.out.println(
-        "Win scenarios count=>"
-            + " All treasures found: "
-            + allTreasuresFound
-            + ", All creatures killed: "
-            + allCreaturesKilled
-            + ", All adventurers killed: "
-            + allAdventurersKilled);
+            "Win scenarios count=>"
+                    + " All treasures found: "
+                    + allTreasuresFound
+                    + ", All creatures killed: "
+                    + allCreaturesKilled
+                    + ", All adventurers killed: "
+                    + allAdventurersKilled);
   }
 
   // Simulate a single game

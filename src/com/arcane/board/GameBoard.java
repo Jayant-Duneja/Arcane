@@ -1,11 +1,13 @@
 package com.arcane.board;
 
+import com.arcane.Decorator.*;
 import com.arcane.Element;
 import com.arcane.board.rooms.Room;
 import com.arcane.board.rooms.StartingRoom;
 import com.arcane.character.adventurer.*;
 import com.arcane.character.creature.*;
 import com.arcane.util.Constants;
+
 import java.util.*;
 
 public class GameBoard {
@@ -16,12 +18,14 @@ public class GameBoard {
     initialiseBoard();
     addAdventures();
     addCreatures();
+    addTreasures();
   }
 
   private void initialiseBoard() {
     roomMap = new LinkedHashMap<>();
     Map<Element, Floor> elementalFloors = createElementalFloors();
     StartingRoom startingRoom = createStartingRoom(elementalFloors);
+    addStartingRoomConnections(elementalFloors, startingRoom);
     populateRoomMap(startingRoom, elementalFloors);
   }
 
@@ -33,6 +37,15 @@ public class GameBoard {
           roomMap.put(room.getRoomId(), room);
         }
       }
+    }
+  }
+
+  private void addStartingRoomConnections(
+      Map<Element, Floor> elementalFloors, StartingRoom startingRoom) {
+    for (Floor floor : elementalFloors.values()) {
+      Room room = floor.getRoom(Constants.VERTICAL_ROOMS / 2, Constants.HORIZONTAL_ROOMS / 2);
+      List<Room> connectedRooms = room.getConnectedRooms();
+      connectedRooms.add(startingRoom);
     }
   }
 
@@ -64,7 +77,7 @@ public class GameBoard {
 
   private void addCreatures() {
     List<Creature> creatures = new ArrayList<>();
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
       creatures.add(new FireBorn());
       creatures.add(new Aquarid());
       creatures.add(new TerraVore());
@@ -72,6 +85,22 @@ public class GameBoard {
     }
     creatures.forEach(
         creature -> this.roomMap.get(creature.getCurrentRoomId()).addCreature(creature));
+  }
+  private void addTreasures(){
+    List<Treasure_Decorator> treasures = new ArrayList<>();
+    for(int i=0;i<4;i++){
+      treasures.add(new Armor(null));
+      treasures.add(new Elixir(null));
+      treasures.add(new Ether(null));
+      treasures.add(new Portal(null));
+      treasures.add(new Potion(null));
+      treasures.add(new Sword(null));
+    }
+    for(int i=0; i< 15; i++){
+      treasures.add(new Gem(null));
+    }
+    treasures.forEach(
+            treasure -> this.roomMap.get(treasure.getRoom()).addTreasure(treasure));
   }
 
   public Room getRoom(String currentRoomId) {

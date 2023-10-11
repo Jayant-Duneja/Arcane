@@ -1,5 +1,8 @@
 package com.arcane.util;
 
+import com.arcane.Element;
+
+import java.util.List;
 import java.util.Map;
 
 public class Constants {
@@ -28,6 +31,11 @@ public class Constants {
           "2-1", new String[] {"2-2", "2-0"},
           "2-0", new String[] {"2-1", "1-0"},
           "1-0", new String[] {"2-0", "0-0"});
+  public static final List<Element> all_elements = List.of(
+          Element.FIRE,
+          Element.AIR,
+          Element.WATER,
+          Element.EARTH);
 
   private Constants() {}
 }

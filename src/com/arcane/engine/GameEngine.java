@@ -71,12 +71,14 @@ public class GameEngine {
   private void printAdventurersStatus() {
     for (Adventurer adventurer : adventurers) {
       System.out.println(
-          adventurer.getClass().getSimpleName()
-              + " - "
-              + adventurer.getTreasureCount()
-              + " Treasure(s) - "
-              + (adventurer.getHealth())
-              + " Health Remaining");
+              adventurer.getClass().getSimpleName()
+                      + " - "
+                      + adventurer.getTreasure_bag().get_treasures()
+                      + " Treasure(s) - "
+                      + adventurer.getTreasure_bag().get_value()
+                      + " Treasure Value - "
+                      + (adventurer.getHealth())
+                      + " Health Remaining");
     }
     System.out.println();
   }
@@ -102,8 +104,8 @@ public class GameEngine {
 
   public boolean isGameOver() {
     return creatures.isEmpty()
-        || gameBoard.areAllAdventuresDead(adventurers)
-        || gameBoard.getTotalTreasureCount(adventurers) >= Constants.TREASURE_COUNT_FOR_VICTORY;
+            || gameBoard.areAllAdventuresDead(adventurers)
+            || gameBoard.getTotalTreasureCount(adventurers) >= Constants.TREASURE_COUNT_FOR_VICTORY;
   }
 
   public String printGameResults() {
