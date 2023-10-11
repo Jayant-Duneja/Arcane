@@ -21,6 +21,8 @@ public abstract class Adventurer extends Character {
   private int baseTreasureRoll = 0;
   private int baseCombatRoll = 0;
   private int health;
+  private int combatExpertiseBonus;
+  private int searchExpertiseBonus;
 
   protected Adventurer(
       int health,
@@ -34,11 +36,13 @@ public abstract class Adventurer extends Character {
     this.discordElement = discordElement;
     this.acronym = acronym;
     this.currentRoomId = Constants.STARTING_ROOM_ID;
+    this.combatExpertiseBonus = 0; // start from novice
+    this.searchExpertiseBonus = 0; // start from novice
   }
 
   @Override
   public int combatRoll() {
-    return super.combatRoll() + baseCombatRoll;
+      return super.combatRoll() + baseCombatRoll + combatExpertiseBonus;
   }
 
   @Override
@@ -74,7 +78,7 @@ public abstract class Adventurer extends Character {
     if (isFightScenario(board)) {
       fightCreatures(board);
     } else {
-      searchTreasure();
+//      searchTreasure();
     }
   }
 
@@ -100,8 +104,13 @@ public abstract class Adventurer extends Character {
           this.takeDamage();
         }
       } else if (creature.combatRoll() < this.combatRoll()) {
+
         // if creature loses then remove it from current room
         gameBoard.getRoom(this.currentRoomId).removeCreature(creature);
+
+        // In case of adventurer victory, increase the combatExperience
+        this.combatExpertiseBonus++;
+        setCombatExpertiseBonus(this.combatExpertiseBonus);
       }
     }
   }
@@ -134,11 +143,13 @@ public abstract class Adventurer extends Character {
     return RandomHelper.getInt(100) < dodgeChance;
   }
 
-  protected void searchTreasure() {
-    if (baseTreasureRoll + Dice.rollDice() >= 11) {
-      treasureCount += 1;
-    }
-  }
+//  protected void searchTreasure() {
+//    int totalTreasureRoll = baseTreasureRoll + Dice.rollDice() + searchExpertiseBonus;
+//
+//    if (totalTreasureRoll >= 11) {
+//      treasureCount += 1;
+//    }
+//  }
 
   public int getTreasureCount() {
     return treasureCount;
@@ -165,4 +176,13 @@ public abstract class Adventurer extends Character {
   protected abstract void elementalDiscord();
 
   protected abstract void elementalReset();
+
+  public void setCombatExpertiseBonus(int bonus){
+    this.combatExpertiseBonus = bonus;
+  }
+
+  public void setSearchExpertiseBonus(int bonus){
+    this.searchExpertiseBonus = bonus;
+  }
+
 }
