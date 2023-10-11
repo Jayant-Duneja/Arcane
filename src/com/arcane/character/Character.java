@@ -1,5 +1,6 @@
 package com.arcane.character;
 
+import com.arcane.Observer.Subject.ConcreteSubject;
 import com.arcane.board.Dice;
 import com.arcane.board.GameBoard;
 
@@ -8,19 +9,19 @@ public abstract class Character {
   // Initial room
   protected String currentRoomId;
 
-  public void performAction(GameBoard gameBoard) {
+  public void performAction(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     if (isFightScenario(gameBoard)) {
-      fight(gameBoard);
+      fight(gameBoard, concreteSubject);
     } else {
-      move(gameBoard);
+      move(gameBoard, concreteSubject);
     }
   }
 
-  protected abstract void move(GameBoard gameBoard);
+  protected abstract void move(GameBoard gameBoard, ConcreteSubject concreteSubject);
 
-  protected abstract void fight(GameBoard gameBoard);
+  protected abstract void fight(GameBoard gameBoard, ConcreteSubject concreteSubject);
 
-  protected abstract void postMove(GameBoard gameBoard);
+  protected abstract void postMove(GameBoard gameBoard, ConcreteSubject concreteSubject);
 
   public int combatRoll() {
     return Dice.rollDice();

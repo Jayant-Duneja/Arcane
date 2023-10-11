@@ -4,6 +4,8 @@ import com.arcane.Decorator.Treasure;
 import com.arcane.Decorator.Treasure_Bag;
 import com.arcane.Decorator.Treasure_Decorator;
 import com.arcane.Element;
+import com.arcane.Observer.EventType;
+import com.arcane.Observer.Subject.ConcreteSubject;
 import com.arcane.board.Dice;
 import com.arcane.board.GameBoard;
 import com.arcane.board.rooms.Room;
@@ -71,49 +73,75 @@ public abstract class Adventurer extends Character {
   }
 
   @Override
-  public void performAction(GameBoard gameBoard) {
+  public void performAction(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     // Handle Elemental effects to the adventurer stats
-    handleElementalEffects(gameBoard.getRoom(currentRoomId));
-    super.performAction(gameBoard);
+    handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
+    super.performAction(gameBoard, concreteSubject);
   }
 
   @Override
-  protected void fight(GameBoard gameBoard) {
-    fightCreatures(gameBoard);
+  protected void fight(GameBoard gameBoard, ConcreteSubject concreteSubject) {
+    fightCreatures(gameBoard, concreteSubject);
   }
 
   @Override
-  protected void move(GameBoard gameBoard) {
+//   protected void move(GameBoard gameBoard, ConcreteSubject concreteSubject) {
+    // Remove adventurer from current room
+//     gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
+//     // Move adventurer to a random valid room
+//     currentRoomId =
+//         RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
+//             .getRoomId();
+//     concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
+//     // Add adventurer to the new room
+//     gameBoard.getRoom(currentRoomId).addAdventurer(this);
+//     // Handle Elemental effects to the adventurer stats
+//     handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
+//     // Perform post move action
+//     postMove(gameBoard, concreteSubject);
+  protected void move(GameBoard gameBoard,ConcreteSubject concreteSubject) {
 
     if(canUsePortal()) {
       usePortal(gameBoard);
     }
     else {
-      // Remove adventurer from current room
+//       // Remove adventurer from current room
+//       gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
+//       // Move adventurer to a random valid room
+//       currentRoomId =
+//               RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
+//                       .getRoomId();
+//       // Add adventurer to the new room
+//       gameBoard.getRoom(currentRoomId).addAdventurer(this);
+//       // Handle Elemental effects to the adventurer stats
+//       handleElementalEffects(gameBoard.getRoom(currentRoomId));
+//       // Perform post move action
+//       postMove(gameBoard);
       gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
       // Move adventurer to a random valid room
       currentRoomId =
-              RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
-                      .getRoomId();
+          RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
+              .getRoomId();
+      concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
       // Add adventurer to the new room
       gameBoard.getRoom(currentRoomId).addAdventurer(this);
       // Handle Elemental effects to the adventurer stats
-      handleElementalEffects(gameBoard.getRoom(currentRoomId));
+      handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
       // Perform post move action
-      postMove(gameBoard);
+      postMove(gameBoard, concreteSubject);
     }
   }
 
   @Override
-  protected void postMove(GameBoard board) {
+  protected void postMove(GameBoard board, ConcreteSubject concreteSubject) {
     if (isFightScenario(board)) {
-      fightCreatures(board);
+      fightCreatures(board, concreteSubject);
     } else {
-      searchTreasure(board);
+      searchTreasure(board, concreteSubject);
     }
   }
 
-  protected void fightCreatures(GameBoard gameBoard) {
+  protected void fightCreatures(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     // if adventurer is alive then fight
     if (this.isAlive()) {
       // Get the creatures present in the current room
@@ -122,23 +150,32 @@ public abstract class Adventurer extends Character {
       // For all adventurer vs creatures, check dice roll
       for (Creature creature : creatures) {
         // if adventurer is alive then fight
-        fightCreature(creature, gameBoard);
+        fightCreature(creature, gameBoard, concreteSubject);
       }
     }
   }
 
-  private void fightCreature(Creature creature, GameBoard gameBoard) {
+  private void fightCreature(Creature creature, GameBoard gameBoard, ConcreteSubject concreteSubject) {
     if (this.isAlive()) {
         int creatureRoll = this.creatureFinalRoll(creature);
       if (creatureRoll > this.combatRoll()) {
         // if adventurer loses then take damage
         if (!isDodgeSuccessful()) {
+          concreteSubject.add_event_to_current_turn(EventType.LOSE_HEALTH, this.acronym.acronym);
           this.takeDamage();
+          if(!this.isAlive()){
+            concreteSubject.add_event_to_current_turn(EventType.DEFEAT, this.acronym.acronym);
+          }
         }
       } else if (creatureRoll < this.combatRoll()) {
         // if creature loses then remove it from current room
         gameBoard.getRoom(this.currentRoomId).removeCreature(creature);
-
+        concreteSubject.add_event_to_current_turn(EventType.WIN_COMBAT, this.acronym.acronym);
+        concreteSubject.add_event_to_current_turn(EventType.LOSE_COMBAT, creature.getAcronym().acronym);
+        concreteSubject.add_event_to_current_turn(EventType.DEFEAT, creature.getAcronym().acronym);
+        // In case of adventurer victory, increase the combatExperience
+//         this.combatExpertiseBonus++;
+//         setCombatExpertiseBonus(this.combatExpertiseBonus);
         // Update the adventurer Combat Expertise
         UpdateExpertise(this.expertise.getId());
       }
@@ -171,14 +208,16 @@ public abstract class Adventurer extends Character {
     }
   }
 
-  private void handleElementalEffects(Room room) {
+  private void handleElementalEffects(Room room, ConcreteSubject concreteSubject) {
     this.elementalReset();
     if (!room.getRoomId().equals(Constants.STARTING_ROOM_ID)) {
       Element element = Element.valueOf(room.getRoomId().split("-")[0]);
       if (element == this.resonanceElement) {
         this.elementalResonance();
+        concreteSubject.add_event_to_current_turn(EventType.GAIN_ELEMENTAL_RESONANCE, this.acronym.acronym);
       } else if (element == this.discordElement) {
         this.elementalDiscord();
+        concreteSubject.add_event_to_current_turn(EventType.GAIN_ELEMENTAL_DISCORD, this.acronym.acronym);
       }
     }
   }
@@ -208,13 +247,15 @@ public abstract class Adventurer extends Character {
     return RandomHelper.getInt(100) < dodgeChance;
   }
 
-  protected void searchTreasure(GameBoard gameBoard) {
+  protected void searchTreasure(GameBoard gameBoard, ConcreteSubject concreteSubject) {
 //    List<Treasure> treasures_in_current_room=gameBoard.getRoom(currentRoomId).getTreasures();
     List<Treasure> treasures_to_remove_in_room = new ArrayList<>();
     int treasure_count;
     for(Treasure treasure : gameBoard.getRoom(currentRoomId).getTreasures()){
       treasure_count =  this.treasure_inventory.get(treasure.getName());
       if((Objects.equals(treasure.getName(), "Gem")) || ( treasure_count== 0)){
+        concreteSubject.add_event_to_current_turn(EventType.FIND_TREASURE, this.acronym.acronym
+                + "-" + treasure.getName());
         treasure.update_adventurer_attributes(this);
         treasures_to_remove_in_room.add(treasure);
         this.treasure_inventory.put(treasure.getName(), treasure_count+1);
@@ -222,12 +263,9 @@ public abstract class Adventurer extends Character {
         this.treasure_bag = createObject(treasure.getName(), this.treasure_bag);
       }
     }
-    System.out.println("List before: " + gameBoard.getRoom(currentRoomId).getTreasures());
     for(Treasure treasure:treasures_to_remove_in_room){
       gameBoard.getRoom(currentRoomId).removeTreasure(treasure);
     }
-    System.out.println("List after: " + gameBoard.getRoom(currentRoomId).getTreasures());
-    System.out.println("------------------------------------------------------------------------");
   }
 
   public int getTreasureCount() {
