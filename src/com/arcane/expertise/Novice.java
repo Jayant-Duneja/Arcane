@@ -1,17 +1,18 @@
 package com.arcane.expertise;
 
-import com.arcane.character.adventurer.Adventurer;
-
-public class Novice implements IExpertiseStrategy{
-
+public class Novice implements IExpertise {
     @Override
-    public void increaseCombatExpertise(Adventurer adventurer) {
-        adventurer.setCombatExpertiseBonus(0);
+    public int combatBonus() {
+        return 0;
     }
 
     @Override
-    public void increaseSearchExpertise(Adventurer adventurer){
-        adventurer.setSearchExpertiseBonus(0);
+    public int treasureBonus() {
+        return 0;
     }
 
+    @Override
+    public int getId() {
+        return 0;
+    }
 }
