@@ -9,6 +9,7 @@ import com.arcane.board.GameBoard;
 import com.arcane.board.rooms.Room;
 import com.arcane.character.Character;
 import com.arcane.character.creature.Creature;
+import com.arcane.expertise.*;
 import com.arcane.util.Constants;
 import com.arcane.util.RandomHelper;
 
@@ -28,8 +29,9 @@ public abstract class Adventurer extends Character {
   private int baseCombatRoll = 0;
   private int baseCreatureCombatRoll=0;
   private int health;
-  private int combatExpertiseBonus;
-  private int searchExpertiseBonus;
+  private int combatExpertiseBonus = 0;
+  private int searchExpertiseBonus = 0;
+  IExpertise expertise;
 
   private int creatureDamage = 2;
   private Map<String, Integer> treasure_inventory;
@@ -46,8 +48,7 @@ public abstract class Adventurer extends Character {
     this.discordElement = discordElement;
     this.acronym = acronym;
     this.currentRoomId = Constants.STARTING_ROOM_ID;
-    this.combatExpertiseBonus = 0; // start from novice
-    this.searchExpertiseBonus = 0; // start from novice
+    expertise = new Novice();
     this.treasure_inventory = new HashMap<>(){
       {
         put("Armor", 0);
@@ -83,18 +84,24 @@ public abstract class Adventurer extends Character {
 
   @Override
   protected void move(GameBoard gameBoard) {
-    // Remove adventurer from current room
-    gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
-    // Move adventurer to a random valid room
-    currentRoomId =
-        RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
-            .getRoomId();
-    // Add adventurer to the new room
-    gameBoard.getRoom(currentRoomId).addAdventurer(this);
-    // Handle Elemental effects to the adventurer stats
-    handleElementalEffects(gameBoard.getRoom(currentRoomId));
-    // Perform post move action
-    postMove(gameBoard);
+
+    if(canUsePortal()) {
+      usePortal(gameBoard);
+    }
+    else {
+      // Remove adventurer from current room
+      gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
+      // Move adventurer to a random valid room
+      currentRoomId =
+              RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
+                      .getRoomId();
+      // Add adventurer to the new room
+      gameBoard.getRoom(currentRoomId).addAdventurer(this);
+      // Handle Elemental effects to the adventurer stats
+      handleElementalEffects(gameBoard.getRoom(currentRoomId));
+      // Perform post move action
+      postMove(gameBoard);
+    }
   }
 
   @Override
@@ -132,9 +139,34 @@ public abstract class Adventurer extends Character {
         // if creature loses then remove it from current room
         gameBoard.getRoom(this.currentRoomId).removeCreature(creature);
 
-        // In case of adventurer victory, increase the combatExperience
-        this.combatExpertiseBonus++;
-        setCombatExpertiseBonus(this.combatExpertiseBonus);
+        // Update the adventurer Combat Expertise
+        UpdateExpertise(this.expertise.getId());
+      }
+    }
+  }
+  private void UpdateExpertise(int previousExpertiseLevel){
+
+    int newExpertiseLevel = previousExpertiseLevel + 1;
+    increaseExpertiseLevel(newExpertiseLevel);
+
+    this.combatExpertiseBonus += expertise.combatBonus();
+  }
+
+  private void increaseExpertiseLevel(int newExpertiseId) {
+    if (newExpertiseId < 3) {
+      switch (newExpertiseId) {
+        case 1:
+          expertise = new Seasoned();
+          break;
+        case 2:
+          expertise = new Veteran();
+          break;
+        case 3:
+          expertise = new Master();
+          break;
+        default:
+          expertise = new Novice();
+          break;
       }
     }
   }
@@ -236,12 +268,79 @@ public abstract class Adventurer extends Character {
 
   protected abstract void elementalReset();
 
-  public void setCombatExpertiseBonus(int bonus){
-    this.combatExpertiseBonus = bonus;
+  private boolean canUsePortal() {
+
+    //Check if adventurer has Portal treasure and Combat Expertise bonus greater than 1
+    boolean isPortalPresent = this.treasure_inventory.get("Portal") > 0;
+    boolean isCombatExpertiseBonusGreaterThanOne = this.combatExpertiseBonus > 1;
+    boolean isHealthGreaterThanZero = this.health > 0;
+
+    if(isPortalPresent && isCombatExpertiseBonusGreaterThanOne && isHealthGreaterThanZero){
+      this.treasure_inventory.put("Portal", this.treasure_inventory.get("Portal")-1);
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
-  public void setSearchExpertiseBonus(int bonus){
-    this.searchExpertiseBonus = bonus;
+
+  protected void usePortal(GameBoard gameBoard) {
+
+    // Get the current room
+    Room currentRoom = gameBoard.getRoom(currentRoomId);
+
+    // Get all the rooms
+    List<Room> allRooms = new ArrayList<>();
+    for (Element element : Element.values()) {
+      for (int row = 0; row < Constants.VERTICAL_ROOMS; row++) {
+        for (int column = 0; column < Constants.HORIZONTAL_ROOMS; column++) {
+          String roomID = element.name() + "-" + row + "-" + column;
+          if (!roomID.equals(Constants.STARTING_ROOM_ID)) {
+            allRooms.add(gameBoard.getRoom(roomID));
+          }
+        }
+      }
+    }
+
+    // Get a random room from the list of all rooms
+    Room randomRoom = RandomHelper.getRandomElementFromList(allRooms);
+
+    // Get the current element
+    Element currentElement = Element.valueOf(currentRoom.getRoomId().split("-")[0]);
+
+    // Get the random element
+    Element randomElement = getRandomElement(currentElement);
+
+    // If the random element is the same as the current element, then generate a new random element
+    while (randomElement == currentElement) {
+      randomElement = Element.values()[RandomHelper.getInt(Element.values().length)];
+    }
+
+    //Randomly select a new row and column
+    int newRow = RandomHelper.getInt(Constants.VERTICAL_ROOMS - 1);
+    int newColumn = RandomHelper.getInt(Constants.HORIZONTAL_ROOMS - 1);
+
+    // Create a new room ID with the new floor, row, and column
+    String newRoomID = randomElement.name() + "-" + newRow + "-" + newColumn;
+
+
+    // Remove and move the adventurer to the new room
+    currentRoom.getAdventurers().remove(this);
+    currentRoomId = newRoomID;
+    randomRoom.addAdventurer(this);
+
+
+    handleElementalEffects(randomRoom);
+
+    postMove(gameBoard);
   }
 
+  private Element getRandomElement(Element currentElement) {
+    Element randomElement = currentElement;
+    while (randomElement == currentElement) {
+      randomElement = Element.values()[RandomHelper.getInt(Element.values().length)];
+    }
+    return randomElement;
+  }
 }
