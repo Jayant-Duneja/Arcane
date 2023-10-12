@@ -2,9 +2,7 @@ package com.arcane.character.adventurer;
 
 import com.arcane.Decorator.Treasure;
 import com.arcane.Decorator.Treasure_Bag;
-import com.arcane.Decorator.Treasure_Decorator;
 import com.arcane.Element;
-import com.arcane.Observer.Event;
 import com.arcane.Observer.EventType;
 import com.arcane.Observer.Subject.ConcreteSubject;
 import com.arcane.board.Dice;
@@ -12,14 +10,13 @@ import com.arcane.board.GameBoard;
 import com.arcane.board.rooms.Room;
 import com.arcane.character.Character;
 import com.arcane.character.creature.Creature;
-import com.arcane.expertise.*;
+import com.arcane.Strategy.*;
 import com.arcane.util.Constants;
 import com.arcane.util.RandomHelper;
 
 import java.util.*;
 
 import static com.arcane.Decorator.Treasure_Factory.createObject;
-import static javax.swing.UIManager.put;
 
 // Example of Inheritance, Creature is a subclass of Adventurer
 public abstract class Adventurer extends Character {
@@ -249,24 +246,34 @@ public abstract class Adventurer extends Character {
   }
 
   protected void searchTreasure(GameBoard gameBoard, ConcreteSubject concreteSubject) {
-//    List<Treasure> treasures_in_current_room=gameBoard.getRoom(currentRoomId).getTreasures();
-    List<Treasure> treasures_to_remove_in_room = new ArrayList<>();
-    int treasure_count;
-    for(Treasure treasure : gameBoard.getRoom(currentRoomId).getTreasures()){
-      treasure_count =  this.treasure_inventory.get(treasure.getName());
-      if((Objects.equals(treasure.getName(), "Gem")) || ( treasure_count== 0)){
-        concreteSubject.add_event_to_current_turn(EventType.FIND_TREASURE, this.acronym.acronym
-                + "-" + treasure.getName());
-        treasure.update_adventurer_attributes(this);
-        treasures_to_remove_in_room.add(treasure);
-        this.treasure_inventory.put(treasure.getName(), treasure_count+1);
-        // update treasure bag
-        this.treasure_bag = createObject(treasure.getName(), this.treasure_bag);
+    List<Treasure> treasures_in_current_room=gameBoard.getRoom(currentRoomId).getTreasures();
+
+    int sumOfDice = Dice.rollDice() + this.baseTreasureRoll + combatExpertiseBonus; // Roll the dice
+
+    // Condition to search for treasure
+    if (sumOfDice >= 11) {
+
+      List<Treasure> treasures_to_remove_in_room = new ArrayList<>();
+      int treasure_count;
+      for(Treasure treasure : gameBoard.getRoom(currentRoomId).getTreasures()){
+        treasure_count =  this.treasure_inventory.get(treasure.getName());
+        if((Objects.equals(treasure.getName(), "Gem")) || ( treasure_count== 0)){
+          concreteSubject.add_event_to_current_turn(EventType.FIND_TREASURE, this.acronym.acronym
+                  + "-" + treasure.getName());
+          treasure.update_adventurer_attributes(this);
+          treasures_to_remove_in_room.add(treasure);
+          this.treasure_inventory.put(treasure.getName(), treasure_count+1);
+          updateTreasureCount(treasure.getName());
+          // update treasure bag
+          this.treasure_bag = createObject(treasure.getName(), this.treasure_bag);
+        }
+      }
+
+      for(Treasure treasure:treasures_to_remove_in_room){
+        gameBoard.getRoom(currentRoomId).removeTreasure(treasure);
       }
     }
-    for(Treasure treasure:treasures_to_remove_in_room){
-      gameBoard.getRoom(currentRoomId).removeTreasure(treasure);
-    }
+
   }
 
   public int getTreasureCount() {
@@ -383,5 +390,12 @@ public abstract class Adventurer extends Character {
   }
   public Map<String, Integer> getTreasureInventory() {
     return this.treasure_inventory;
+  }
+
+  private void updateTreasureCount(String treasureName) {
+
+    this.treasure_inventory.put(treasureName, this.treasure_inventory.get(treasureName) + 1);
+
+    if(!treasureName.equals("Gem"))  this.treasureCount += 1;
   }
 }
