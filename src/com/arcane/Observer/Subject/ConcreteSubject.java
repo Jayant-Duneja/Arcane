@@ -6,6 +6,7 @@ import java.io.IOException;
 import com.arcane.Observer.Event;
 import com.arcane.Observer.EventType;
 import com.arcane.Observer.Observer.Observer;
+import com.arcane.board.GameBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +19,13 @@ public class ConcreteSubject implements Subject{
         this.event_current_turn = new ArrayList<>();
     }
     public void add_event_to_current_turn(EventType eventType, String name){
-        this.event_current_turn.add(new Event(eventType, name, null));
+        this.event_current_turn.add(new Event(eventType, name));
     }
     public void add_event_to_current_turn(EventType eventType, String name, String room){
         this.event_current_turn.add(new Event(eventType, name, room));
+    }
+    public void add_event_to_current_turn(EventType eventType, String name, String room, GameBoard gameBoard){
+        this.event_current_turn.add(new Event(eventType, name, room, gameBoard));
     }
 
     public void clear_previous_turn_events(){

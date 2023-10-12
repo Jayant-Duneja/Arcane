@@ -52,7 +52,7 @@ public class GameEngine {
 
   private void printGame(boolean shouldPrint) {
     if (shouldPrint) {
-      System.out.println("----------Turn-" + turn + "----------");
+      System.out.println("------------------------------------------------------Turn-" + turn + "----------------------------------------------------------------");
       gameBoard.renderBoard();
       printAdventurersStatus();
       printCreaturesStatus();
@@ -87,12 +87,14 @@ public class GameEngine {
     for (Adventurer adventurer : adventurers) {
       System.out.println(
               adventurer.getClass().getSimpleName()
-                      + " - "
+                      + " ||||||||"
                       + " Treasure(s) - "
                       + adventurer.getTreasure_bag().get_treasures()
+                      + " ||||||||"
                       + " Treasure Value - "
                       + adventurer.getTreasure_bag().get_value()
-                      + " Health Remaining"
+                      + " ||||||||"
+                      + " Health Remaining- "
                       + (adventurer.getHealth())
                       );
     }

@@ -5,6 +5,7 @@ import com.arcane.Decorator.Treasure;
 import com.arcane.Decorator.Treasure_Bag;
 import com.arcane.Observer.Event;
 import com.arcane.Observer.EventType;
+import com.arcane.board.GameBoard;
 import com.arcane.character.creature.Creature;
 
 import java.io.BufferedWriter;
@@ -25,9 +26,11 @@ public class Tracker implements Observer {
     private final List<String> current_resonance;
     private Map<String, Integer> active_creatures;
     private Map<String, List<String>> active_creature_positions;
+    GameBoard gameBoard;
 
     private final Map<String, Treasure> treasure_bag_hashmap;
     public Tracker(){
+        gameBoard=null;
         turn_number=0;
         total_treasure_value = 0;
         treasure_bag_hashmap = new HashMap<>(){
@@ -81,11 +84,11 @@ public class Tracker implements Observer {
     public void update_for_current_event(List<Event> current_events){
         String[] parts;
         int temp_health;
-        for (String key : active_creature_positions.keySet()) {
-            List<String> list = active_creature_positions.get(key);
-            list.clear();
-        }
-        active_creature_positions.get("A").clear();
+//        for (String key : active_creature_positions.keySet()) {
+//            List<String> list = active_creature_positions.get(key);
+//            list.clear();
+//        }
+//        active_creature_positions.get("A").clear();
         for(Event event:current_events){
             switch(event.getType()){
                 case FIND_TREASURE:
@@ -97,9 +100,10 @@ public class Tracker implements Observer {
                     this.adventurer_positions.put(event.getName(), event.getRoom());
                     break;
                 case Creature_enter_room:
-                    List<String> list = active_creature_positions.get(event.getName());
-                    list.add(event.getRoom());
-                    active_creature_positions.put(event.getName(), list);
+//                    List<String> list = active_creature_positions.get(event.getName());
+//                    list.add(event.getRoom());
+//                    active_creature_positions.put(event.getName(), list);
+                    this.gameBoard=event.getGameBoard();
                     break;
                 case GAIN_ELEMENTAL_DISCORD:
                     if(!this.current_discord.contains(event.getName())){
@@ -142,48 +146,47 @@ public class Tracker implements Observer {
     }
     void print_summary(){
         get_total_treasure_value();
-        String file_name = System.getProperty("user.dir") + "/src/com/arcane/Tracker-Outputs/ " + "Tracker -- " + turn_number + ".txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file_name, true))) {
-            System.out.println("Tracker. Turn: " + turn_number);
-            System.out.println("Total Treasure_Value: " + this.total_treasure_value);
-            System.out.println("Total Active_Adventurers: " + this.active_adventurers.size());
-            System.out.println("Adventurers     " + "Room     " + "Health     " + "Treasure     " + "Total Treasure Value    ");
-            for(String name: active_adventurers) {
-                System.out.println(name + "          " + adventurer_positions.get(name) + "          " + adventurer_health.get(name)
-                        +  "           " + treasure_bag_hashmap.get(name).getName() + "            " +
-                        treasure_bag_hashmap.get(name).get_value());
-            }
-            System.out.println("Elemental Resonance ");
-            for(String name:current_resonance) {
-                if(active_adventurers.contains(name)){
-                    System.out.println(name);
-                }
-            }
-            System.out.println("Elemental Discord ");
-            for(String name:current_discord) {
-                if(active_adventurers.contains(name)) {
-                    System.out.println(name);
-                }
-            }
-            int temp=0;
-            for (String key : active_creatures.keySet()) {
-                temp+=active_creatures.get(key);
-            }
-            System.out.println("Total Active Creatures " + temp);
-            System.out.println("Creatures                 " + "Room");
-            for(String name: active_creature_positions.keySet()) {
-                List<String> list=active_creature_positions.get(name);
-                for(int i=0; i< list.size() && i < active_creatures.get(name);i++) {
-                    System.out.println(name + "                     "  + list.get(i));
-                }
-            }
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace(); // Handle the IOException appropriately
+        System.out.println("-------------------------  TRACKER-OUTPUT ---------------------- ");
+        System.out.println("Tracker. Turn: " + turn_number);
+        System.out.println();
+        System.out.println("Total Treasure_Value: " + this.total_treasure_value);
+        System.out.println();
+        System.out.println("Total Active_Adventurers: " + this.active_adventurers.size());
+        System.out.println();
+        System.out.println("Adventurers     " + "Room     " + "Health     " + "Treasure     " + "Total Treasure Value    ");
+        for(String name: active_adventurers) {
+            System.out.println(name + "          " + adventurer_positions.get(name) + "          " + adventurer_health.get(name)
+                    +  "           " + treasure_bag_hashmap.get(name).getName() + "            " +
+                    treasure_bag_hashmap.get(name).get_value());
         }
-    }
-
+        System.out.println();
+        System.out.println("Elemental Resonance ");
+        for(String name:current_resonance) {
+            if(active_adventurers.contains(name)){
+                System.out.println(name);
+            }
+        }
+        System.out.println();
+        System.out.println("Elemental Discord ");
+        for(String name:current_discord) {
+            if(active_adventurers.contains(name)) {
+                System.out.println(name);
+            }
+        }
+        System.out.println();
+        int temp=0;
+        for (String key : active_creatures.keySet()) {
+            temp+=active_creatures.get(key);
+        }
+        System.out.println("Total Active Creatures " + temp);
+        System.out.println();
+        System.out.println("Creatures                 " + "Room");
+        List<Creature> remaining_creatures = gameBoard.getRemainingCreatures();
+        for(Creature creature:remaining_creatures){
+            System.out.println(creature.getAcronym().acronym + "                     "  + creature.getCurrentRoomId());
+        }
+        }
 }
+
+
 
