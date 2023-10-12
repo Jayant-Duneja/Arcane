@@ -144,49 +144,37 @@ public class Tracker implements Observer {
         get_total_treasure_value();
         String file_name = System.getProperty("user.dir") + "/src/com/arcane/Tracker-Outputs/ " + "Tracker -- " + turn_number + ".txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file_name, true))) {
-            writer.write("Tracker. Turn: " + turn_number);
-            writer.newLine();
-            writer.write("Total Treasure_Value: " + this.total_treasure_value);
-            writer.newLine();
-            writer.write("Total Active_Adventurers: " + this.active_adventurers.size());
-            writer.newLine();
-            writer.write("Adventurers     " + "Room     " + "Health     " + "Treasure     " + "Total Treasure Value    ");
-            writer.newLine();
+            System.out.println("Tracker. Turn: " + turn_number);
+            System.out.println("Total Treasure_Value: " + this.total_treasure_value);
+            System.out.println("Total Active_Adventurers: " + this.active_adventurers.size());
+            System.out.println("Adventurers     " + "Room     " + "Health     " + "Treasure     " + "Total Treasure Value    ");
             for(String name: active_adventurers) {
-                writer.write(name + "     " + adventurer_positions.get(name) + "     " + adventurer_health.get(name)
-                        +  "     " + treasure_bag_hashmap.get(name).getName() + "     " +
+                System.out.println(name + "          " + adventurer_positions.get(name) + "          " + adventurer_health.get(name)
+                        +  "           " + treasure_bag_hashmap.get(name).getName() + "            " +
                         treasure_bag_hashmap.get(name).get_value());
-                writer.newLine();
             }
-            writer.write("Elemental Resonance ");
-            writer.newLine();
+            System.out.println("Elemental Resonance ");
             for(String name:current_resonance) {
                 if(active_adventurers.contains(name)){
-                    writer.write(name);
-                    writer.newLine();
+                    System.out.println(name);
                 }
             }
-            writer.write("Elemental Discord ");
-            writer.newLine();
+            System.out.println("Elemental Discord ");
             for(String name:current_discord) {
                 if(active_adventurers.contains(name)) {
-                    writer.write(name);
-                    writer.newLine();
+                    System.out.println(name);
                 }
             }
             int temp=0;
             for (String key : active_creatures.keySet()) {
                 temp+=active_creatures.get(key);
             }
-            writer.write("Total Active Creatures " + temp);
-            writer.newLine();
-            writer.write("Creatures                 " + "Room");
-            writer.newLine();
+            System.out.println("Total Active Creatures " + temp);
+            System.out.println("Creatures                 " + "Room");
             for(String name: active_creature_positions.keySet()) {
                 List<String> list=active_creature_positions.get(name);
                 for(int i=0; i< list.size() && i < active_creatures.get(name);i++) {
-                    writer.write(name + "                     "  + list.get(i));
-                    writer.newLine();
+                    System.out.println(name + "                     "  + list.get(i));
                 }
             }
 
