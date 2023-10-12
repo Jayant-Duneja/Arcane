@@ -1,7 +1,10 @@
 # A.R.C.A.N.E.: Adventurers of the Realm: Chronicles of Ancient Nexus Elements
 
-### Authors: Rajiv Srivatsava Vangala
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/0UBO3sfV)
+# project-2-arcane
 
-### Java Version: Java 17
+Team Members:
+1. Jayant Duneja
+2. Tilak Singh
 
-Description: https://docs.google.com/document/d/1-HKdT9F_8kgBhpkgIvoFlkFORN0IDuijWRI0Twq9RVI/edit
+Java Version: - 17
