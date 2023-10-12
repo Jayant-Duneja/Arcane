@@ -58,3 +58,107 @@ Name: AIR-0-1
 --------------------------------------------------------------------
 Event type: Creature_enter_room
 Name: AIR-0-0
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: EK
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: MW
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: EARTH-1-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: MW
+--------------------------------------------------------------------
+Event type: FIND_TREASURE
+Name: MW-Portal
+--------------------------------------------------------------------
+Event type: FIND_TREASURE
+Name: MW-Gem
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: TV
+--------------------------------------------------------------------
+Event type: LOSE_HEALTH
+Name: TV
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: ZR
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: ZR
+Current Room type: AIR-2-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: ZR
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-0-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-0-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-0-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-1-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-0-0
+--------------------------------------------------------------------
+Event type: WIN_COMBAT
+Name: TV
+--------------------------------------------------------------------
+Event type: LOSE_COMBAT
+Name: T
+--------------------------------------------------------------------
+Event type: DEFEAT
+Name: T
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: AIR-1-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: AIR-0-1
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: EARTH-2-1
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: AIR-1-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: ZR
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: ZR
+Current Room type: EARTH-1-0
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: ZR
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-2-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-2-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-2-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-0-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-0-1

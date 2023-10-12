@@ -44,3 +44,54 @@ Name: ZR-Gem
 --------------------------------------------------------------------
 Event type: Creature_enter_room
 Name: FIRE-1-2
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: EK
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: WATER-2-2
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: EK
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: AIR-1-2
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: TV
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: TV
+Current Room type: FIRE-2-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: TV
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: ZR
+Current Room type: AIR-1-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: ZR
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-1-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-1-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-2-2
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: AIR-0-2
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: AIR-1-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: ZR

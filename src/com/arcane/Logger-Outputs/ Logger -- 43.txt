@@ -28,3 +28,20 @@ Name: FIRE-2-2
 --------------------------------------------------------------------
 Event type: Creature_enter_room
 Name: FIRE-2-0
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: AIR-1-0
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: MW
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: EARTH-1-2
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: MW
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: ZR
