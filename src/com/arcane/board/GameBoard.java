@@ -227,9 +227,12 @@ public class GameBoard {
     return false;
   }
 
-  public int treasureValue(){
+  public int treasureValue(List<Adventurer> adventurers){
       // Call Value function here
-    return 0;
+    int total_treasure_value=0;
+    for(Adventurer adventurer:adventurers)
+      total_treasure_value+=adventurer.getTreasure_bag().get_value();
+    return total_treasure_value;
   }
 
 }
