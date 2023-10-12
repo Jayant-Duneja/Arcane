@@ -1,4 +1,4 @@
-package com.arcane.expertise;
+package com.arcane.Strategy;
 
 public class Novice implements IExpertise {
     @Override

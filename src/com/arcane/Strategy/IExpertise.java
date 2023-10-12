@@ -1,6 +1,4 @@
-package com.arcane.expertise;
-
-import com.arcane.character.adventurer.Adventurer;
+package com.arcane.Strategy;
 
 public interface IExpertise {
     int combatBonus();
