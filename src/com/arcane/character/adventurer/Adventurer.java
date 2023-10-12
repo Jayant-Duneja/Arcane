@@ -314,6 +314,8 @@ public abstract class Adventurer extends Character {
 
   protected abstract void elementalReset();
 
+
+  // Deciding if the adventurer can use the portal
   private boolean canUsePortal() {
 
     //Check if adventurer has Portal treasure and Combat Expertise bonus greater than 1
@@ -331,6 +333,7 @@ public abstract class Adventurer extends Character {
   }
 
 
+  // Using portal to teleport to a random room
   protected void usePortal(GameBoard gameBoard, ConcreteSubject concreteSubject) {
 
     // Get the current room
@@ -392,6 +395,7 @@ public abstract class Adventurer extends Character {
     return this.treasure_inventory;
   }
 
+  // Updating the treasure count
   private void updateTreasureCount(String treasureName) {
 
     this.treasure_inventory.put(treasureName, this.treasure_inventory.get(treasureName) + 1);
