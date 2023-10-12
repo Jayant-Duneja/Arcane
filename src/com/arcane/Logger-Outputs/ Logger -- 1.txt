@@ -1,0 +1,94 @@
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: AIR-1-1
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: WATER-1-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: MW
+--------------------------------------------------------------------
+Event type: FIND_TREASURE
+Name: MW-Portal
+--------------------------------------------------------------------
+Event type: FIND_TREASURE
+Name: MW-Sword
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: TV
+Current Room type: WATER-1-1
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: ZR
+Current Room type: AIR-1-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: ZR
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-1-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-2-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: WATER-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: WATER-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: WATER-1-1
+--------------------------------------------------------------------
+Event type: WIN_COMBAT
+Name: MW
+--------------------------------------------------------------------
+Event type: LOSE_COMBAT
+Name: A
+--------------------------------------------------------------------
+Event type: DEFEAT
+Name: A
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: WATER-1-1
+--------------------------------------------------------------------
+Event type: WIN_COMBAT
+Name: TV
+--------------------------------------------------------------------
+Event type: LOSE_COMBAT
+Name: A
+--------------------------------------------------------------------
+Event type: DEFEAT
+Name: A
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-0-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: EARTH-1-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: AIR-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: AIR-1-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: AIR-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: AIR-0-1

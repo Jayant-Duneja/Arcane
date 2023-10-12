@@ -1,0 +1,37 @@
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: SR
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: MW
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: WATER-1-2
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: MW
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: TV
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: TV
+Current Room type: FIRE-0-0
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: TV
+--------------------------------------------------------------------
+Event type: FIND_TREASURE
+Name: TV-Sword
+--------------------------------------------------------------------
+Event type: FIND_TREASURE
+Name: TV-Gem
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: ZR
+Current Room type: FIRE-1-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: FIRE-1-0

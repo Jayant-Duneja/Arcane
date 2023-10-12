@@ -1,0 +1,18 @@
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: EARTH-0-2
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: MW
+Current Room type: WATER-1-1
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_RESONANCE
+Name: MW
+--------------------------------------------------------------------
+Event type: GAIN_ELEMENTAL_DISCORD
+Name: TV
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: ZR
+Current Room type: FIRE-2-0
