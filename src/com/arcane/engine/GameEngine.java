@@ -88,12 +88,13 @@ public class GameEngine {
       System.out.println(
               adventurer.getClass().getSimpleName()
                       + " - "
-                      + adventurer.getTreasure_bag().get_treasures()
                       + " Treasure(s) - "
-                      + adventurer.getTreasure_bag().get_value()
+                      + adventurer.getTreasure_bag().get_treasures()
                       + " Treasure Value - "
+                      + adventurer.getTreasure_bag().get_value()
+                      + " Health Remaining"
                       + (adventurer.getHealth())
-                      + " Health Remaining");
+                      );
     }
     System.out.println();
   }
