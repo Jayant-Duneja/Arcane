@@ -208,4 +208,28 @@ public class GameBoard {
     }
     return totalTreasureCollected;
   }
+
+  public boolean areAllTreasureTypeFound(List<Adventurer> adventurers) {
+    int totalTreasure = 0;
+    for (Adventurer adventurer : adventurers) {
+
+      Map<String, Integer> treasure_inventory = adventurer.getTreasureInventory();
+      for (String treasureType : treasure_inventory.keySet()) {
+
+        if (!treasureType.equals("Gem")) {
+          totalTreasure += treasure_inventory.get(treasureType);
+          if (totalTreasure >= Constants.TREASURE_TYPE_COUNT) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  public int treasureValue(){
+      // Call Value function here
+    return 0;
+  }
+
 }

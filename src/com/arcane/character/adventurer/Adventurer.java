@@ -381,4 +381,7 @@ public abstract class Adventurer extends Character {
     }
     return randomElement;
   }
+  public Map<String, Integer> getTreasureInventory() {
+    return this.treasure_inventory;
+  }
 }

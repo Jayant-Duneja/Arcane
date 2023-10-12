@@ -120,7 +120,9 @@ public class GameEngine {
   public boolean isGameOver() {
     return creatures.isEmpty()
             || gameBoard.areAllAdventuresDead(adventurers)
-            || gameBoard.getTotalTreasureCount(adventurers) >= Constants.TREASURE_COUNT_FOR_VICTORY;
+            || gameBoard.getTotalTreasureCount(adventurers) >= Constants.TREASURE_COUNT_FOR_VICTORY
+            || gameBoard.areAllTreasureTypeFound(adventurers)
+            || gameBoard.treasureValue() >= Constants.TREASURE_VALUE_FOR_VICTORY;
   }
 
   public String printGameResults() {
