@@ -27,10 +27,10 @@ this.turn = -1;
 }
 @Override
 public void update_for_current_event(List<Event> current_events){
-this.current_events = current_events;
-for(Event event:this.current_events){
-appendEventsToFile(event, this.file_name);
-}
+    this.current_events = current_events;
+    for(Event event:this.current_events){
+        appendEventsToFile(event, this.file_name);
+    }
 }
 public void appendEventsToFile(Event event, String filename) {
 try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {

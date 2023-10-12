@@ -162,7 +162,7 @@ public abstract class Adventurer extends Character {
       if (creatureRoll > this.combatRoll()) {
         // if adventurer loses then take damage
         if (!isDodgeSuccessful()) {
-          concreteSubject.add_event_to_current_turn(EventType.LOSE_HEALTH, this.acronym.acronym);
+          concreteSubject.add_event_to_current_turn(EventType.LOSE_HEALTH, this.acronym.acronym + "-" + this.creatureDamage);
           this.takeDamage();
           if(!this.isAlive()){
             concreteSubject.add_event_to_current_turn(EventType.DEFEAT, this.acronym.acronym);

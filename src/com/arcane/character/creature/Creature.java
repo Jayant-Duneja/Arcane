@@ -47,7 +47,7 @@ public abstract class Creature extends Character {
   protected void move(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     gameBoard.getRoom(currentRoomId).getCreatures().remove(this);
     currentRoomId = getNextRoom(gameBoard);
-    concreteSubject.add_event_to_current_turn(EventType.Creature_enter_room, currentRoomId);
+    concreteSubject.add_event_to_current_turn(EventType.Creature_enter_room, this.acronym.acronym, currentRoomId);
     gameBoard.getRoom(currentRoomId).addCreature(this);
     postMove(gameBoard, concreteSubject);
   }
@@ -65,7 +65,7 @@ public abstract class Creature extends Character {
       if (adventurer.isAlive()) {
         if (this.combatRoll() > adventurer.combatRoll()) {
           if (!adventurer.isDodgeSuccessful()) {
-            concreteSubject.add_event_to_current_turn(EventType.LOSE_HEALTH, adventurer.getAcronym().acronym);
+            concreteSubject.add_event_to_current_turn(EventType.LOSE_HEALTH, adventurer.getAcronym().acronym + "-" + adventurer.getCreatureDamage());
             adventurer.takeDamage();
             if(!adventurer.isAlive()){
               concreteSubject.add_event_to_current_turn(EventType.DEFEAT, adventurer.getAcronym().acronym);

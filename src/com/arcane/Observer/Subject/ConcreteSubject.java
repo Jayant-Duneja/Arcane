@@ -23,6 +23,7 @@ public class ConcreteSubject implements Subject{
     public void add_event_to_current_turn(EventType eventType, String name, String room){
         this.event_current_turn.add(new Event(eventType, name, room));
     }
+
     public void clear_previous_turn_events(){
         this.event_current_turn.clear();
     }
@@ -35,9 +36,6 @@ public class ConcreteSubject implements Subject{
     public void remove_observer(Observer observer) {
         this.current_observers.remove(observer);
     }
-
-
-
 
     @Override
     public void notify_all_observers() {
