@@ -6,8 +6,8 @@ public class TerraVoyager extends Adventurer {
 
   private final int normalCreatureDamage;
 
-  public TerraVoyager() {
-    super(7, 10, Element.EARTH, Element.FIRE, AdventurerAcronym.TERRA_VOYAGER);
+  public TerraVoyager(String displayName) {
+    super(7, 10, Element.EARTH, Element.FIRE, AdventurerAcronym.TERRA_VOYAGER, displayName);
     normalCreatureDamage = this.getCreatureDamage();
   }
 

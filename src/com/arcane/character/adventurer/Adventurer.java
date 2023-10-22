@@ -20,6 +20,7 @@ import static com.arcane.Decorator.Treasure_Factory.createObject;
 
 // Example of Inheritance, Creature is a subclass of Adventurer
 public abstract class Adventurer extends Character {
+  private final String displayName;
   private final Element resonanceElement;
   private final Element discordElement;
   private final AdventurerAcronym acronym;
@@ -41,13 +42,15 @@ public abstract class Adventurer extends Character {
       int dodgeChance,
       Element resonanceElement,
       Element discordElement,
-      AdventurerAcronym acronym) {
+      AdventurerAcronym acronym,
+      String displayName) {
     this.health = health;
     this.dodgeChance = dodgeChance;
     this.resonanceElement = resonanceElement;
     this.discordElement = discordElement;
     this.acronym = acronym;
     this.currentRoomId = Constants.STARTING_ROOM_ID;
+    this.displayName = displayName;
     expertise = new Novice();
     this.treasure_inventory = new HashMap<>(){
       {

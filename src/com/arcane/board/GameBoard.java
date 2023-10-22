@@ -2,6 +2,8 @@ package com.arcane.board;
 
 import com.arcane.Decorator.*;
 import com.arcane.Element;
+import com.arcane.Factory.AdventurerFactory;
+import com.arcane.Factory.CreatureFactory;
 import com.arcane.board.rooms.Room;
 import com.arcane.board.rooms.StartingRoom;
 import com.arcane.character.adventurer.*;
@@ -13,16 +15,20 @@ import java.util.*;
 public class GameBoard {
 
   private Map<String, Room> roomMap;
+  AdventurerFactory adventurerFactory;
+  CreatureFactory creatureFactory;
 
-  public GameBoard() {
+  public GameBoard(String adventurerType, String adventurerCustomName, String creatures) {
     initialiseBoard();
-    addAdventures();
-    addCreatures();
+    addAdventures(adventurerType, adventurerCustomName);
+    addCreatures(creatures);
     addTreasures();
   }
 
   private void initialiseBoard() {
     roomMap = new LinkedHashMap<>();
+    adventurerFactory =  new AdventurerFactory();
+    creatureFactory = new CreatureFactory();
     Map<Element, Floor> elementalFloors = createElementalFloors();
     StartingRoom startingRoom = createStartingRoom(elementalFloors);
     addStartingRoomConnections(elementalFloors, startingRoom);
@@ -68,20 +74,21 @@ public class GameBoard {
     return startingRoom;
   }
 
-  private void addAdventures() {
+  private void addAdventures(String adventurerType, String adventurerCustomName) {
     List<Adventurer> adventurers =
-        Arrays.asList(new EmberKnight(), new MistWalker(), new TerraVoyager(), new ZephyrRogue());
+        Arrays.asList(adventurerFactory.createCharacter(adventurerType, adventurerCustomName));
     adventurers.forEach(
         adventurer -> this.roomMap.get(adventurer.getCurrentRoomId()).addAdventurer(adventurer));
   }
 
-  private void addCreatures() {
-    List<Creature> creatures = new ArrayList<>();
-    for (int i = 0; i < 4; i++) {
-      creatures.add(new FireBorn());
-      creatures.add(new Aquarid());
-      creatures.add(new TerraVore());
-      creatures.add(new Zephyral());
+  private void addCreatures(String commaSeperatedCreatures) {
+    // Split the string by comma and store the substrings in an array
+    String[] stringArray = commaSeperatedCreatures.split(",");
+    // Convert the array to a List (if you need a List)
+    List<String> tempList = Arrays.asList(stringArray);
+    List<Creature> creatures =  new ArrayList<>();
+    for(String s:tempList){
+      creatures.add(creatureFactory.createCharacter(s, ""));
     }
     creatures.forEach(
         creature -> this.roomMap.get(creature.getCurrentRoomId()).addCreature(creature));

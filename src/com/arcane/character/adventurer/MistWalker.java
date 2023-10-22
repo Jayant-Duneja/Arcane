@@ -6,8 +6,8 @@ public class MistWalker extends Adventurer {
 
   private static final int DODGE_CHANCE = 50;
 
-  public MistWalker() {
-    super(3, DODGE_CHANCE, Element.WATER, Element.EARTH, AdventurerAcronym.MIST_WALKER);
+  public MistWalker(String displayName) {
+    super(3, DODGE_CHANCE, Element.WATER, Element.EARTH, AdventurerAcronym.MIST_WALKER, displayName);
   }
 
   @Override

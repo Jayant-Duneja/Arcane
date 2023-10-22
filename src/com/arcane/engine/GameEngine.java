@@ -1,5 +1,6 @@
 package com.arcane.engine;
 
+import com.arcane.Command.*;
 import com.arcane.Observer.Observer.Logger;
 import com.arcane.Observer.Observer.Tracker;
 import com.arcane.Observer.Subject.ConcreteSubject;
@@ -19,10 +20,11 @@ public class GameEngine {
   private Tracker tracker;
 
   private List<Creature> creatures;
+  Invoker invoker;
 
   // Game initialization - create new board, set turn to 0, populate adventures and creatures
-  public void initialiseGame() {
-    gameBoard = new GameBoard();
+  public void initialiseGame(String adventurerType, String adventurerCustomName, String creatures) {
+    gameBoard = new GameBoard(adventurerType, adventurerCustomName, creatures);
     adventurers = new ArrayList<>();
     this.turn = 0;
     this.adventurers.addAll(gameBoard.getRoom(Constants.STARTING_ROOM_ID).getAdventurers());
@@ -31,24 +33,40 @@ public class GameEngine {
     logger = new Logger();
     tracker = new Tracker();
     currentSubject.register_observer(tracker);
+    invoker = new Invoker();
   }
 
-  public String simulateGame(Boolean shouldPrint) {
+  public String simulateTurn(Boolean shouldPrint, String commandName){
     printGame(shouldPrint);
     // Run the game until game over condition is achieved
-    while (!isGameOver()) {
-      currentSubject.clear_previous_turn_events();
-      currentSubject.remove_observer(logger);
-      logger.instantiate(turn);
-      currentSubject.register_observer(logger);
-      // perform a turn and then print board
-      performTurn();
-      printGame(shouldPrint);
-      currentSubject.notify_all_observers();
-    }
+    currentSubject.clear_previous_turn_events();
+    currentSubject.remove_observer(logger);
+    logger.instantiate(turn);
+    currentSubject.register_observer(logger);
+    performCommand(commandName);
+    printGame(shouldPrint);
+    currentSubject.notify_all_observers();
     // If game ends print results
     return printGameResults();
   }
+
+//  public String simulateGame(Boolean shouldPrint, String commandName) {
+//    printGame(shouldPrint);
+//    // Run the game until game over condition is achieved
+//    while (!isGameOver()) {
+//      currentSubject.clear_previous_turn_events();
+//      currentSubject.remove_observer(logger);
+//      logger.instantiate(turn);
+//      currentSubject.register_observer(logger);
+//      // perform a turn and then print board
+////      performTurn();
+//      performCommand(commandName);
+//      printGame(shouldPrint);
+//      currentSubject.notify_all_observers();
+//    }
+//    // If game ends print results
+//    return printGameResults();
+//  }
 
   private void printGame(boolean shouldPrint) {
     if (shouldPrint) {
@@ -103,21 +121,31 @@ public class GameEngine {
 
   // Step1: Perform action for all adventurers while checking if game over is achieved
   // Step2: Perform action for all creatures while checking if game over is achieved
-  public void performTurn() {
-    for (Adventurer adventurer : adventurers) {
-      adventurer.performAction(gameBoard, currentSubject);
-      creatures = gameBoard.getRemainingCreatures();
-      if (isGameOver()) {
-        break;
+//  public void performTurn() {
+//    for (Adventurer adventurer : adventurers) {
+//      adventurer.performAction(gameBoard, currentSubject);
+//      creatures = gameBoard.getRemainingCreatures();
+//      if (isGameOver()) {
+//        break;
+//      }
+//    }
+//
+//    for (Creature creature : creatures) {
+//      creature.performAction(gameBoard, currentSubject);
+//      if (isGameOver()) {
+//        break;
+//      }
+//    }
+//  }
+  public void performCommand(String CommandName)
+  {
+      switch (CommandName) {
+          case "Move" -> invoker.setCommand(new Move(this.adventurers.get(0), gameBoard, currentSubject));
+          case "Search" -> invoker.setCommand(new Search(this.adventurers.get(0), gameBoard, currentSubject));
+          case "Fight" -> invoker.setCommand(new Fight(this.adventurers.get(0), gameBoard, currentSubject));
+          case "Exit" -> invoker.setCommand(new Exit(this.adventurers.get(0), gameBoard, currentSubject));
       }
-    }
-
-    for (Creature creature : creatures) {
-      creature.performAction(gameBoard, currentSubject);
-      if (isGameOver()) {
-        break;
-      }
-    }
+      invoker.performCommand();
   }
 
   public boolean isGameOver() {
