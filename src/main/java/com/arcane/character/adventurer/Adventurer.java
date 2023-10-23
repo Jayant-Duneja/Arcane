@@ -182,7 +182,7 @@ public abstract class Adventurer extends Character {
       }
     }
   }
-  private void UpdateExpertise(int previousExpertiseLevel){
+  public void UpdateExpertise(int previousExpertiseLevel){
 
     int newExpertiseLevel = previousExpertiseLevel + 1;
     increaseExpertiseLevel(newExpertiseLevel);
@@ -209,7 +209,7 @@ public abstract class Adventurer extends Character {
     }
   }
 
-  private void handleElementalEffects(Room room, ConcreteSubject concreteSubject) {
+  public void handleElementalEffects(Room room, ConcreteSubject concreteSubject) {
     this.elementalReset();
     if (!room.getRoomId().equals(Constants.STARTING_ROOM_ID)) {
       Element element = Element.valueOf(room.getRoomId().split("-")[0]);
@@ -310,6 +310,7 @@ public abstract class Adventurer extends Character {
   public Treasure getTreasure_bag(){
     return this.treasure_bag;
   }
+  public int getCombatExpertiseBonus() { return this.combatExpertiseBonus;}
 
   protected abstract void elementalResonance();
 

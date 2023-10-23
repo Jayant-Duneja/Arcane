@@ -17,6 +17,7 @@ import static com.arcane.Decorator.Treasure_Factory.createObject;
 import static java.lang.System.in;
 
 public class Tracker implements Observer {
+    private static Tracker uniqueTracker = new Tracker();
     int turn_number;
     private int total_treasure_value;
     private final List<String> active_adventurers;
@@ -29,7 +30,7 @@ public class Tracker implements Observer {
     GameBoard gameBoard;
 
     private final Map<String, Treasure> treasure_bag_hashmap;
-    public Tracker(){
+    private Tracker(){
         gameBoard=null;
         turn_number=0;
         total_treasure_value = 0;
@@ -79,6 +80,9 @@ public class Tracker implements Observer {
         active_adventurers.add("ZR");
         active_adventurers.add("MW");
         active_adventurers.add("TV");
+    }
+    public static Tracker getInstance(){
+        return uniqueTracker;
     }
     @Override
     public void update_for_current_event(List<Event> current_events){

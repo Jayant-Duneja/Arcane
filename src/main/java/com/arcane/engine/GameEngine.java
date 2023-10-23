@@ -30,8 +30,8 @@ public class GameEngine {
     this.adventurers.addAll(gameBoard.getRoom(Constants.STARTING_ROOM_ID).getAdventurers());
     this.creatures = gameBoard.getRemainingCreatures();
     currentSubject = new ConcreteSubject();
-    logger = new Logger();
-    tracker = new Tracker();
+    logger = Logger.getInstance();
+    tracker = Tracker.getInstance();
     currentSubject.register_observer(tracker);
     invoker = new Invoker();
   }
