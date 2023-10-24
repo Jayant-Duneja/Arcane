@@ -15,6 +15,20 @@ public class Exit implements Command{
     }
     @Override
     public void execute() {
+        String currentRoom = this.adventurer.getCurrentRoomId();
 
+        // Only exit from starting room
+        if(currentRoom.equals("SR")){
+            exit(currentRoom);
+        }
+    }
+
+    public void exit(String currentRoom){
+
+        // remove adventurer from the game and end the game
+        this.gameBoard.getRoom(currentRoom).getAdventurers().remove(this.adventurer);
+
+        //end game
+        this.gameBoard.endGame(this.adventurer);
     }
 }

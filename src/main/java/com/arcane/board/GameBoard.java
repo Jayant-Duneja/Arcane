@@ -242,4 +242,10 @@ public class GameBoard {
     return total_treasure_value;
   }
 
+
+  public void endGame(Adventurer adventurer) {
+    System.out.println("Game Over " + adventurer.getName() +" exited the game.");
+    System.exit(0);
+  }
+
 }

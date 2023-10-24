@@ -33,6 +33,7 @@ public abstract class Adventurer extends Character {
   private int combatExpertiseBonus = 0;
   private int searchExpertiseBonus = 0;
   IExpertise expertise;
+  private String name;
 
   private int creatureDamage = 2;
   private Map<String, Integer> treasure_inventory;
@@ -320,7 +321,7 @@ public abstract class Adventurer extends Character {
 
 
   // Deciding if the adventurer can use the portal
-  private boolean canUsePortal() {
+  public boolean canUsePortal() {
 
     //Check if adventurer has Portal treasure and Combat Expertise bonus greater than 1
     boolean isPortalPresent = this.treasure_inventory.get("Portal") > 0;
@@ -338,7 +339,7 @@ public abstract class Adventurer extends Character {
 
 
   // Using portal to teleport to a random room
-  protected void usePortal(GameBoard gameBoard, ConcreteSubject concreteSubject) {
+  public void usePortal(GameBoard gameBoard, ConcreteSubject concreteSubject) {
 
     // Get the current room
     Room currentRoom = gameBoard.getRoom(currentRoomId);
@@ -400,10 +401,27 @@ public abstract class Adventurer extends Character {
   }
 
   // Updating the treasure count
-  private void updateTreasureCount(String treasureName) {
+  public void updateTreasureCount(String treasureName) {
 
     this.treasure_inventory.put(treasureName, this.treasure_inventory.get(treasureName) + 1);
 
     if(!treasureName.equals("Gem"))  this.treasureCount += 1;
   }
+
+  public void setName(String name){
+    this.name = name;
+  }
+  public String getName(){
+        return this.name;
+  }
+
+
+  // TODO: Check if getTreasureBag, setTreasureBag is needed
+  public Treasure getTreasureBag(){
+    return this.treasure_bag;
+  }
+
+    public void setTreasureBag(Treasure treasure){
+        this.treasure_bag = treasure;
+    }
 }
