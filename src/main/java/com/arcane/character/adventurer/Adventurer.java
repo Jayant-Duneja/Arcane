@@ -406,4 +406,7 @@ public abstract class Adventurer extends Character {
 
     if(!treasureName.equals("Gem"))  this.treasureCount += 1;
   }
+  public String getDisplayName(){
+    return this.displayName;
+  }
 }

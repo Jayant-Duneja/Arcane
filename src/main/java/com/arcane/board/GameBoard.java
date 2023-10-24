@@ -82,6 +82,9 @@ public class GameBoard {
   }
 
   private void addCreatures(String commaSeperatedCreatures) {
+    if(commaSeperatedCreatures.equals("")){
+      return;
+    }
     // Split the string by comma and store the substrings in an array
     String[] stringArray = commaSeperatedCreatures.split(",");
     // Convert the array to a List (if you need a List)
