@@ -128,11 +128,19 @@ public abstract class Adventurer extends Character {
       gameBoard.getRoom(currentRoomId).addAdventurer(this);
       // Handle Elemental effects to the adventurer stats
       handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
-      // Perform post move action
-      postMove(gameBoard, concreteSubject);
     }
   }
 
+  public void move(GameBoard gameBoard,ConcreteSubject concreteSubject, String nextRoomId){
+    gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
+    currentRoomId = nextRoomId;
+    concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
+    // Add adventurer to the new room
+    gameBoard.getRoom(currentRoomId).addAdventurer(this);
+    // Handle Elemental effects to the adventurer stats
+    handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
+
+  }
   @Override
   protected void postMove(GameBoard board, ConcreteSubject concreteSubject) {
     if (isFightScenario(board)) {
@@ -155,7 +163,15 @@ public abstract class Adventurer extends Character {
       }
     }
   }
-
+  public void takeDamageFromAllCreatures(GameBoard gameBoard, ConcreteSubject concreteSubject){
+    List<Creature> creatures =
+            new ArrayList<>(gameBoard.getRoom(this.currentRoomId).getCreatures());
+    for (Creature creature : creatures) {
+      // if adventurer is alive then fight
+      this.takeDamage();
+      concreteSubject.add_event_to_current_turn(EventType.LOSE_HEALTH, this.acronym.acronym + "-" + this.creatureDamage);
+    }
+  }
   private void fightCreature(Creature creature, GameBoard gameBoard, ConcreteSubject concreteSubject) {
     if (this.isAlive()) {
         int creatureRoll = this.creatureFinalRoll(creature);
@@ -236,7 +252,7 @@ public abstract class Adventurer extends Character {
     this.creatureDamage = creatureDamage;
   }
 
-  public void takeDamage() {
+  private void takeDamage() {
     health -= creatureDamage;
   }
 

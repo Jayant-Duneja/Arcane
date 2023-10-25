@@ -42,14 +42,18 @@ public abstract class Creature extends Character {
   protected void fight(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     fightAdventures(gameBoard, concreteSubject);
   }
+  public void performTurn(GameBoard gameBoard, ConcreteSubject concreteSubject){
+    if (!isFightScenario(gameBoard)) {
+      move(gameBoard, concreteSubject);
+    }
+  }
 
   @Override
-  protected void move(GameBoard gameBoard, ConcreteSubject concreteSubject) {
+  public void move(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     gameBoard.getRoom(currentRoomId).getCreatures().remove(this);
     currentRoomId = getNextRoom(gameBoard);
     gameBoard.getRoom(currentRoomId).addCreature(this);
     concreteSubject.add_event_to_current_turn(EventType.Creature_enter_room, this.acronym.acronym, currentRoomId,gameBoard);
-    postMove(gameBoard, concreteSubject);
   }
 
   @Override

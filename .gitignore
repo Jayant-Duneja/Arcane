@@ -988,3 +988,7 @@ ipython_config.py
 #   git rm -r .ipynb_checkpoints/
 
 Logger-Outputs/
+/.gradle/
+/gradle/
+/gradlew
+/gradlew.bat

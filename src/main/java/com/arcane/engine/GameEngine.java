@@ -32,6 +32,7 @@ public class GameEngine {
     currentSubject = new ConcreteSubject();
     logger = Logger.getInstance();
     tracker = Tracker.getInstance();
+    tracker.initialize(this.adventurers, this.creatures);
     currentSubject.register_observer(tracker);
     invoker = new Invoker();
   }
@@ -44,6 +45,7 @@ public class GameEngine {
     logger.instantiate(turn);
     currentSubject.register_observer(logger);
     performCommand(commandName);
+    performCreatureTurn();
     printGame(shouldPrint);
     currentSubject.notify_all_observers();
     // If game ends print results
@@ -138,13 +140,32 @@ public class GameEngine {
 //    }
 //  }
   public void performCommand(String CommandName) {
-      switch (CommandName) {
-          case "Move" -> invoker.setCommand(new Move(this.adventurers.get(0), gameBoard, currentSubject));
-          case "Search" -> invoker.setCommand(new Search(this.adventurers.get(0), gameBoard, currentSubject));
-          case "Fight" -> invoker.setCommand(new Fight(this.adventurers.get(0), gameBoard, currentSubject));
-          case "Exit" -> invoker.setCommand(new Exit(this.adventurers.get(0), gameBoard, currentSubject));
+    if (CommandName.contains("Move")) {
+      invoker.setCommand(new Move(this.adventurers.get(0), gameBoard, currentSubject, CommandName.split(":")[1]));
+    } else if (CommandName.contains("Search")) {
+      invoker.setCommand(new Search(this.adventurers.get(0), gameBoard, currentSubject));
+    } else if (CommandName.contains("Fight")) {
+      invoker.setCommand(new Fight(this.adventurers.get(0), gameBoard, currentSubject));
+    } else if (CommandName.contains("Exit")) {
+      invoker.setCommand(new Exit(this.adventurers.get(0), gameBoard, currentSubject));
+    } else {
+      // Handle the case where none of the substrings are found
+      // You may want to provide a default action or an error message.
+      System.out.println("Please provide a valid command.");
+    }
+
+    invoker.performCommand();
+  }
+    public void performCreatureTurn() {
+    for (Creature creature : creatures) {
+//      creature.performAction(gameBoard, currentSubject);
+
+//      creature.move(gameBoard, currentSubject);
+      creature.performTurn(gameBoard, currentSubject);
+      if (isGameOver()) {
+        break;
       }
-      invoker.performCommand();
+    }
   }
 
   public boolean isGameOver() {

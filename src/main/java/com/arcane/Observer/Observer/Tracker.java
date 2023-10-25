@@ -6,7 +6,9 @@ import com.arcane.Decorator.Treasure_Bag;
 import com.arcane.Observer.Event;
 import com.arcane.Observer.EventType;
 import com.arcane.board.GameBoard;
+import com.arcane.character.adventurer.Adventurer;
 import com.arcane.character.creature.Creature;
+import com.arcane.util.Constants;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -26,7 +28,6 @@ public class Tracker implements Observer {
     private final List<String> current_discord;
     private final List<String> current_resonance;
     private Map<String, Integer> active_creatures;
-    private Map<String, List<String>> active_creature_positions;
     GameBoard gameBoard;
 
     private final Map<String, Treasure> treasure_bag_hashmap;
@@ -34,52 +35,68 @@ public class Tracker implements Observer {
         gameBoard=null;
         turn_number=0;
         total_treasure_value = 0;
-        treasure_bag_hashmap = new HashMap<>(){
-            {
-                put("EK", new Treasure_Bag());
-                put("MW", new Treasure_Bag());
-                put("ZR", new Treasure_Bag());
-                put("TV", new Treasure_Bag());
-            }};
-        adventurer_health = new HashMap<>(){
-            {
-                put("EK", 5);
-                put("MW", 3);
-                put("ZR", 3);
-                put("TV", 7);
-            }};
-
-        adventurer_positions = new HashMap<>(){
-            {
-            put("EK", "SR");
-            put("MW", "SR");
-            put("ZR", "SR");
-            put("TV", "SR");
-
-        }};
-        active_creatures = new HashMap<>(){
-            {
-            put("A", 4);
-            put("Z", 4);
-            put("T", 4);
-            put("F", 4);
-
-        }};
-        active_creature_positions = new HashMap<>(){
-            {
-            put("A", new ArrayList<>());
-            put("Z", new ArrayList<>());
-            put("T", new ArrayList<>());
-            put("F", new ArrayList<>());
-
-        }};
+        treasure_bag_hashmap = new HashMap<>();
+        adventurer_health = new HashMap<>();
+        adventurer_positions = new HashMap<>();
+        active_creatures = new HashMap<>();
         current_discord = new ArrayList<>();
         current_resonance = new ArrayList<>();
         active_adventurers = new ArrayList<>();
-        active_adventurers.add("EK");
-        active_adventurers.add("ZR");
-        active_adventurers.add("MW");
-        active_adventurers.add("TV");
+//        treasure_bag_hashmap = new HashMap<>(){
+//            {
+//                put("EK", new Treasure_Bag());
+//                put("MW", new Treasure_Bag());
+//                put("ZR", new Treasure_Bag());
+//                put("TV", new Treasure_Bag());
+//            }};
+//        adventurer_health = new HashMap<>(){
+//            {
+//                put("EK", 5);
+//                put("MW", 3);
+//                put("ZR", 3);
+//                put("TV", 7);
+//            }};
+//
+//        adventurer_positions = new HashMap<>(){
+//            {
+//            put("EK", "SR");
+//            put("MW", "SR");
+//            put("ZR", "SR");
+//            put("TV", "SR");
+//
+//        }};
+//        active_creatures = new HashMap<>(){
+//            {
+//            put("A", 4);
+//            put("Z", 4);
+//            put("T", 4);
+//            put("F", 4);
+//
+//        }};
+//        current_discord = new ArrayList<>();
+//        current_resonance = new ArrayList<>();
+//        active_adventurers = new ArrayList<>();
+//        active_adventurers.add("EK");
+//        active_adventurers.add("ZR");
+//        active_adventurers.add("MW");
+//        active_adventurers.add("TV");
+    }
+    public void initialize(List<Adventurer> adventurers, List<Creature> creatures){
+        for(Adventurer adventurer:adventurers){
+            active_adventurers.add(adventurer.getAcronym().acronym);
+            treasure_bag_hashmap.put(adventurer.getAcronym().acronym, new Treasure_Bag());
+            adventurer_health.put(adventurer.getAcronym().acronym, adventurer.getHealth());
+            adventurer_positions.put(adventurer.getAcronym().acronym, "SR");
+        }
+        for(Creature creature:creatures){
+            String acronym =creature.getAcronym().acronym;
+            if(active_creatures.containsKey(acronym)){
+                active_creatures.put(acronym, active_creatures.get(acronym)+1);
+            }
+            else{
+                active_creatures.put(acronym, 1);
+            }
+        }
     }
     public static Tracker getInstance(){
         return uniqueTracker;
@@ -88,11 +105,6 @@ public class Tracker implements Observer {
     public void update_for_current_event(List<Event> current_events){
         String[] parts;
         int temp_health;
-//        for (String key : active_creature_positions.keySet()) {
-//            List<String> list = active_creature_positions.get(key);
-//            list.clear();
-//        }
-//        active_creature_positions.get("A").clear();
         for(Event event:current_events){
             switch(event.getType()){
                 case FIND_TREASURE:
@@ -104,9 +116,6 @@ public class Tracker implements Observer {
                     this.adventurer_positions.put(event.getName(), event.getRoom());
                     break;
                 case Creature_enter_room:
-//                    List<String> list = active_creature_positions.get(event.getName());
-//                    list.add(event.getRoom());
-//                    active_creature_positions.put(event.getName(), list);
                     this.gameBoard=event.getGameBoard();
                     break;
                 case GAIN_ELEMENTAL_DISCORD:

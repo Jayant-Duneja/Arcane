@@ -5,7 +5,7 @@ import com.arcane.Element;
 public class EmberKnight extends Adventurer {
 
   public EmberKnight(String displayName) {
-    super(5, 20, Element.FIRE, Element.WATER, AdventurerAcronym.EMBER_KNIGHT, displayName);
+    super(10, 20, Element.FIRE, Element.WATER, AdventurerAcronym.EMBER_KNIGHT, displayName);
   }
 
   @Override

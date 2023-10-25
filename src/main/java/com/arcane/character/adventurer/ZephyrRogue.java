@@ -4,7 +4,7 @@ import com.arcane.Element;
 
 public class ZephyrRogue extends Adventurer {
   public ZephyrRogue(String displayName) {
-    super(3, 25, Element.AIR, Element.EARTH, AdventurerAcronym.ZEPHYR_ROGUE, displayName);
+    super(6, 25, Element.AIR, Element.EARTH, AdventurerAcronym.ZEPHYR_ROGUE, displayName);
   }
 
   @Override

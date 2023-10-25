@@ -28,7 +28,7 @@ public class Logger implements Observer {
     public void instantiate(int turn_number){
         this.turn = turn_number;
         current_events.clear();
-        file_name = System.getProperty("user.dir") + "/src/com/arcane/Logger-Outputs/ " + "Logger -- " + turn_number + ".txt";
+        file_name = System.getProperty("user.dir") + "/Logger-Outputs/ " + "Logger -- " + turn_number + ".txt";
     }
     public void close(){
     this.turn = -1;

@@ -13,10 +13,12 @@ public class Move implements Command{
     Adventurer adventurer;
     GameBoard gameBoard;
     Subject currentSubject;
-    public Move(Adventurer adventurer, GameBoard gameBoard, Subject currentSubject){
+    String nextRoomId;
+    public Move(Adventurer adventurer, GameBoard gameBoard, Subject currentSubject, String nextRoomId){
         this.adventurer = adventurer;
         this.gameBoard=gameBoard;
         this.currentSubject=currentSubject;
+        this.nextRoomId = nextRoomId;
     }
     @Override
     public void execute() {
@@ -25,8 +27,9 @@ public class Move implements Command{
         String roomId = this.adventurer.getCurrentRoomId();
 
         if (!this.gameBoard.getRoom(roomId).getCreatures().isEmpty()) {
-            this.adventurer.takeDamage();
+            this.adventurer.takeDamageFromAllCreatures(this.gameBoard, (ConcreteSubject) this.currentSubject);
         }
-        this.adventurer.move(this.gameBoard, (ConcreteSubject) this.currentSubject);
+//        this.adventurer.move(this.gameBoard, (ConcreteSubject) this.currentSubject);
+        this.adventurer.move(this.gameBoard, (ConcreteSubject) this.currentSubject, nextRoomId);
     }
 }

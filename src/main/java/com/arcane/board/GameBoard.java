@@ -247,7 +247,7 @@ public class GameBoard {
 
 
   public void endGame(Adventurer adventurer) {
-    System.out.println("Game Over " + adventurer.getName() +" exited the game.");
+    System.out.println("Game Over " + adventurer.getDisplayName() +" exited the game.");
     System.exit(0);
   }
 

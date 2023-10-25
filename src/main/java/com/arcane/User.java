@@ -7,36 +7,40 @@ import com.arcane.engine.GameEngine;
 import java.util.Scanner;
 
 public class User {
-    Command command;
-    GameEngine gameEngine;
-    // user will enter the type of adventurer
-    String adventurerType;
-    // user will enter the custom name of the adventurer
-    String adventurerCustomName;
-    // user will enter the comma seperated string of the creatures he wants in the game
-    String creatures;
-    public User(){
+
+
+    private static void simulateSingleRun(){
+        String command;
+        GameEngine gameEngine;
+        // user will enter the type of adventurer
+        String adventurerType;
+        // user will enter the custom name of the adventurer
+        String adventurerCustomName;
+        // user will enter the comma separated string of the creatures he wants in the game
+        String creatures;
         gameEngine =  new GameEngine();
         adventurerType = getInput("Please enter the type of Adventurer");
         adventurerCustomName = getInput("Please enter the custom name of the Adventurer");
-        creatures = getInput("Enter a comma seperated list of creatures you want");
+        creatures = getInput("Enter a comma separated list of creatures you want");
         gameEngine.initialiseGame(adventurerType, adventurerCustomName, creatures);
         for(int i=0; i< 10; i++){
-            command = getCommand();
+            command = getInput("Enter the command you want");
+            if(command.equals("Move"))
+            {
+                String room  = getInput("Enter the Room you want to go to");
+                command = command + ":" + room;
+            }
+            gameEngine.simulateTurn(Boolean.TRUE, command);
         }
     }
-    private String getInput(String prompt){
+    private static String getInput(String prompt){
         Scanner scanner = new Scanner(System.in);
         System.out.println(prompt + ": ");
         String ret = scanner.nextLine();
-//        System.out.println("Hello, " + name + "!");
         return ret;
     }
-    private Command getCommand(){
-        // Take user input and get the input command
-        // If the command is an exit command, break the loop and end the game
-        // Note: Exit command should only happen in the starting room
-        return null;
-    }
+    public static void main(String[] args) {
+    simulateSingleRun();
+  }
 
 }
