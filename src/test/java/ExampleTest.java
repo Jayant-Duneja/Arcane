@@ -6,6 +6,7 @@ import com.arcane.board.rooms.Room;
 import com.arcane.character.adventurer.Adventurer;
 import com.arcane.character.adventurer.EmberKnight;
 import com.arcane.character.adventurer.MistWalker;
+import com.arcane.character.adventurer.TerraVoyager;
 import com.arcane.character.creature.Creature;
 import com.arcane.util.Constants;
 import org.junit.jupiter.api.Assertions;
@@ -55,6 +56,13 @@ public class ExampleTest {
         Assertions.assertEquals(testMistWalker.getDodgeChance() - prevDodgeChance, -25);
     }
     @Test
+    void testMistWalkerExpertise(){
+        MistWalker testMistWalker = new MistWalker("");
+        testMistWalker.UpdateExpertise(1);
+        Assertions.assertEquals(testMistWalker.getCombatExpertiseBonus(), 2);
+    }
+
+    @Test
     void testGameBoardAdventurers(){
         GameBoard gameBoard = new GameBoard("EK", "Test_Adventurer", "");
         List<Adventurer> current_adventurers = gameBoard.getRoom(Constants.STARTING_ROOM_ID).getAdventurers();
@@ -88,9 +96,47 @@ public class ExampleTest {
         Assertions.assertEquals(connectedRooms.size(), 5);
     }
 
+    @Test
+    void testGameBoardAdventurersInRoom(){
+        GameBoard gameBoard = new GameBoard("EK", "Test_Adventurer", "");
+        List<Adventurer> current_adventurers = gameBoard.getRoom(Constants.STARTING_ROOM_ID).getAdventurers();
+        Assertions.assertEquals(current_adventurers.size(), 1);
+        Assertions.assertEquals(current_adventurers.get(0).getAcronym().acronym, "EK");
+        Assertions.assertEquals(current_adventurers.get(0).getDisplayName(), "Test_Adventurer");
+    }
+
+    @Test
+    void testGameBoardCreaturesInRoomEmpty(){
+        GameBoard gameBoard = new GameBoard("EK", "Test_Adventurer", "");
+        List<Creature> current_creatures = gameBoard.getRoom(Constants.STARTING_ROOM_ID).getCreatures();
+        Assertions.assertEquals(current_creatures.size(), 0);
+    }
 
 
+    @Test
+    void testTerraVoyagerResonance(){
+        TerraVoyager testTerraVoyager = new TerraVoyager("");
+        Room room= new ElementalRoom(Element.FIRE, 1, 1);
+        ConcreteSubject testSubject = new ConcreteSubject();
+        testTerraVoyager.handleElementalEffects(room, testSubject);
+        Assertions.assertEquals(testTerraVoyager.getBaseCombatRoll(), 0);
+    }
 
+    @Test
+    void testTerraVoyagerDiscord(){
+        TerraVoyager testTerraVoyager = new TerraVoyager("");
+        Room room = new ElementalRoom(Element.EARTH, 1, 1);
+        ConcreteSubject testSubject = new ConcreteSubject();
+        float prevDodgeChance = testTerraVoyager.getDodgeChance();
+        testTerraVoyager.handleElementalEffects(room, testSubject);
+        Assertions.assertEquals(testTerraVoyager.getDodgeChance() - prevDodgeChance, 0);
+    }
 
+    @Test
+    void testTerraVoyagerExpertise(){
+        TerraVoyager testTerraVoyager = new TerraVoyager("");
+        testTerraVoyager.UpdateExpertise(1);
+        Assertions.assertEquals(testTerraVoyager.getCombatExpertiseBonus(), 2);
+    }
 
 }

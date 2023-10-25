@@ -109,10 +109,7 @@ public class Tracker implements Observer {
             switch(event.getType()){
                 case FIND_TREASURE:
                     parts = event.getName().split("-");
-                    System.out.println("Event String: " + Arrays.toString(parts));
                     Treasure curr = treasure_bag_hashmap.get(parts[0]);
-                    System.out.println("Curr Treasure value: " + curr.get_value());
-                    System.out.println("Curr Treasure Name: " + curr.get_treasures());
                     this.treasure_bag_hashmap.put(parts[0], createObject(parts[1],curr));
                     break;
                 case Adventurer_enter_room:
