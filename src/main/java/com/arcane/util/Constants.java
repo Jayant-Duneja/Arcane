@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Constants {
   public static final int TREASURE_COUNT_FOR_VICTORY = 50;
-  public static final int TREASURE_VALUE_FOR_VICTORY = 15000;
+  public static final int TREASURE_VALUE_FOR_VICTORY = 6000;
   public static final int TREASURE_TYPE_COUNT = 24;
   public static final int VERTICAL_ROOMS = 3;
   public static final int HORIZONTAL_ROOMS = 3;

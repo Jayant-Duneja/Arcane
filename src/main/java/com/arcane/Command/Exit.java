@@ -29,6 +29,6 @@ public class Exit implements Command{
         this.gameBoard.getRoom(currentRoom).getAdventurers().remove(this.adventurer);
 
         //end game
-        this.gameBoard.endGame(this.adventurer);
+        this.gameBoard.setStartingRoomExitFlag(Boolean.TRUE);
     }
 }

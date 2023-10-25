@@ -9,19 +9,11 @@ public abstract class Character {
   // Initial room
   protected String currentRoomId;
 
-  public void performAction(GameBoard gameBoard, ConcreteSubject concreteSubject) {
-    if (isFightScenario(gameBoard)) {
-      fight(gameBoard, concreteSubject);
-    } else {
-      move(gameBoard, concreteSubject);
-    }
-  }
-
   protected abstract void move(GameBoard gameBoard, ConcreteSubject concreteSubject);
+//
+//  protected abstract void fight(GameBoard gameBoard, ConcreteSubject concreteSubject);
 
-  protected abstract void fight(GameBoard gameBoard, ConcreteSubject concreteSubject);
-
-  protected abstract void postMove(GameBoard gameBoard, ConcreteSubject concreteSubject);
+//  protected abstract void postMove(GameBoard gameBoard, ConcreteSubject concreteSubject);
 
   public int combatRoll() {
     return Dice.rollDice();

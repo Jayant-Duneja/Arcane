@@ -11,6 +11,7 @@ import com.arcane.board.rooms.Room;
 import com.arcane.character.Character;
 import com.arcane.character.creature.Creature;
 import com.arcane.Strategy.*;
+import com.arcane.engine.GameEngine;
 import com.arcane.util.Constants;
 import com.arcane.util.RandomHelper;
 
@@ -74,61 +75,8 @@ public abstract class Adventurer extends Character {
   }
 
   @Override
-  public void performAction(GameBoard gameBoard, ConcreteSubject concreteSubject) {
-    // Handle Elemental effects to the adventurer stats
-    handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
-    super.performAction(gameBoard, concreteSubject);
-  }
-
-  @Override
-  protected void fight(GameBoard gameBoard, ConcreteSubject concreteSubject) {
-    fightCreatures(gameBoard, concreteSubject);
-  }
-
-  @Override
-//   protected void move(GameBoard gameBoard, ConcreteSubject concreteSubject) {
-    // Remove adventurer from current room
-//     gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
-//     // Move adventurer to a random valid room
-//     currentRoomId =
-//         RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
-//             .getRoomId();
-//     concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
-//     // Add adventurer to the new room
-//     gameBoard.getRoom(currentRoomId).addAdventurer(this);
-//     // Handle Elemental effects to the adventurer stats
-//     handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
-//     // Perform post move action
-//     postMove(gameBoard, concreteSubject);
   public void move(GameBoard gameBoard,ConcreteSubject concreteSubject) {
 
-    if(canUsePortal()) {
-      usePortal(gameBoard, concreteSubject);
-    }
-    else {
-//       // Remove adventurer from current room
-//       gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
-//       // Move adventurer to a random valid room
-//       currentRoomId =
-//               RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
-//                       .getRoomId();
-//       // Add adventurer to the new room
-//       gameBoard.getRoom(currentRoomId).addAdventurer(this);
-//       // Handle Elemental effects to the adventurer stats
-//       handleElementalEffects(gameBoard.getRoom(currentRoomId));
-//       // Perform post move action
-//       postMove(gameBoard);
-      gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
-      // Move adventurer to a random valid room
-      currentRoomId =
-          RandomHelper.getRandomElementFromList(gameBoard.getRoom(currentRoomId).getConnectedRooms())
-              .getRoomId();
-      concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
-      // Add adventurer to the new room
-      gameBoard.getRoom(currentRoomId).addAdventurer(this);
-      // Handle Elemental effects to the adventurer stats
-      handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
-    }
   }
 
   public void move(GameBoard gameBoard,ConcreteSubject concreteSubject, String nextRoomId){
@@ -141,15 +89,6 @@ public abstract class Adventurer extends Character {
     handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
 
   }
-  @Override
-  protected void postMove(GameBoard board, ConcreteSubject concreteSubject) {
-    if (isFightScenario(board)) {
-      fightCreatures(board, concreteSubject);
-    } else {
-      searchTreasure(board, concreteSubject);
-    }
-  }
-
   public void fightCreatures(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     // if adventurer is alive then fight
     if (this.isAlive()) {
@@ -175,7 +114,8 @@ public abstract class Adventurer extends Character {
   private void fightCreature(Creature creature, GameBoard gameBoard, ConcreteSubject concreteSubject) {
     if (this.isAlive()) {
         int creatureRoll = this.creatureFinalRoll(creature);
-      if (creatureRoll > this.combatRoll()) {
+        int adventurerRoll = this.combatRoll();
+      if (creatureRoll > adventurerRoll) {
         // if adventurer loses then take damage
         if (!isDodgeSuccessful()) {
           concreteSubject.add_event_to_current_turn(EventType.LOSE_HEALTH, this.acronym.acronym + "-" + this.creatureDamage);
@@ -184,7 +124,7 @@ public abstract class Adventurer extends Character {
             concreteSubject.add_event_to_current_turn(EventType.DEFEAT, this.acronym.acronym);
           }
         }
-      } else if (creatureRoll < this.combatRoll()) {
+      } else if (creatureRoll < adventurerRoll) {
         // if creature loses then remove it from current room
         gameBoard.getRoom(this.currentRoomId).removeCreature(creature);
         concreteSubject.add_event_to_current_turn(EventType.WIN_COMBAT, this.acronym.acronym);
@@ -401,7 +341,7 @@ public abstract class Adventurer extends Character {
     concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, currentRoomId);
     handleElementalEffects(randomRoom, concreteSubject);
 
-    postMove(gameBoard, concreteSubject);
+//    postMove(gameBoard, concreteSubject);
   }
 
   private Element getRandomElement(Element currentElement) {

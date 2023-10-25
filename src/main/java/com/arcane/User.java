@@ -23,14 +23,18 @@ public class User {
         adventurerCustomName = getInput("Please enter the custom name of the Adventurer");
         creatures = getInput("Enter a comma separated list of creatures you want");
         gameEngine.initialiseGame(adventurerType, adventurerCustomName, creatures);
-        for(int i=0; i< 10; i++){
+        Boolean prev=Boolean.TRUE;
+        for(int i=0; i< 50; i++){
+            if(!prev)
+                break;
             command = getInput("Enter the command you want");
             if(command.equals("Move"))
             {
                 String room  = getInput("Enter the Room you want to go to");
                 command = command + ":" + room;
             }
-            gameEngine.simulateTurn(Boolean.TRUE, command);
+            prev = gameEngine.simulateTurn(Boolean.TRUE, command);
+
         }
     }
     private static String getInput(String prompt){

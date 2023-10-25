@@ -17,12 +17,14 @@ public class GameBoard {
   private Map<String, Room> roomMap;
   AdventurerFactory adventurerFactory;
   CreatureFactory creatureFactory;
+  private Boolean startingRoomExitFlag;
 
   public GameBoard(String adventurerType, String adventurerCustomName, String creatures) {
     initialiseBoard();
     addAdventures(adventurerType, adventurerCustomName);
     addCreatures(creatures);
     addTreasures();
+    startingRoomExitFlag=Boolean.FALSE;
   }
 
   private void initialiseBoard() {
@@ -160,7 +162,7 @@ public class GameBoard {
 
   private String getCharacterString(Room room, int roomWidth) {
     String characters =
-        getAdventurersInRoom(room.getAdventurers()) + ":" + getCreaturesInRoom(room.getCreatures());
+        getAdventurersInRoomString(room.getAdventurers()) + ":" + getCreaturesInRoomString(room.getCreatures());
     int lPadding = (roomWidth - characters.length()) / 2;
     int rPadding = roomWidth - characters.length() - lPadding;
     return " ".repeat(lPadding) + characters + " ".repeat(rPadding);
@@ -168,7 +170,7 @@ public class GameBoard {
 
   // the input parameter is a list of adventurers in a particular room
   // return a concatenated string of abbreviations of the adventurers in the room
-  public String getAdventurersInRoom(List<Adventurer> adventurers) {
+  public String getAdventurersInRoomString(List<Adventurer> adventurers) {
     StringBuilder adventurersPresent = new StringBuilder();
     for (Adventurer adventurer : adventurers) {
       if (adventurer.isAlive()) {
@@ -182,7 +184,7 @@ public class GameBoard {
 
   // the input parameter is a list of creatures in a particular room
   // return a concatenated string of abbreviations of the creatures in the room
-  public String getCreaturesInRoom(List<Creature> creatures) {
+  public String getCreaturesInRoomString(List<Creature> creatures) {
     StringBuilder creaturesPresent = new StringBuilder();
     for (Creature creature : creatures) {
       creaturesPresent.append(creature.getAcronym().acronym).append(",");
@@ -245,10 +247,11 @@ public class GameBoard {
     return total_treasure_value;
   }
 
-
-  public void endGame(Adventurer adventurer) {
-    System.out.println("Game Over " + adventurer.getDisplayName() +" exited the game.");
-    System.exit(0);
+  public void setStartingRoomExitFlag(Boolean value){
+    this.startingRoomExitFlag=value;
+  }
+  public Boolean getStartingRoomExitFlag(){
+    return this.startingRoomExitFlag;
   }
 
 }

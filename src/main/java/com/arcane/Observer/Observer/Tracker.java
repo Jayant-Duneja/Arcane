@@ -109,7 +109,10 @@ public class Tracker implements Observer {
             switch(event.getType()){
                 case FIND_TREASURE:
                     parts = event.getName().split("-");
+                    System.out.println("Event String: " + Arrays.toString(parts));
                     Treasure curr = treasure_bag_hashmap.get(parts[0]);
+                    System.out.println("Curr Treasure value: " + curr.get_value());
+                    System.out.println("Curr Treasure Name: " + curr.get_treasures());
                     this.treasure_bag_hashmap.put(parts[0], createObject(parts[1],curr));
                     break;
                 case Adventurer_enter_room:
@@ -159,17 +162,9 @@ public class Tracker implements Observer {
     }
     void print_summary(){
         get_total_treasure_value();
-        System.out.println("-------------------------  TRACKER-OUTPUT ---------------------- ");
-        System.out.println("Tracker. Turn: " + turn_number);
-        System.out.println();
-        System.out.println("Total Treasure_Value: " + this.total_treasure_value);
-        System.out.println();
-        System.out.println("Total Active_Adventurers: " + this.active_adventurers.size());
-        System.out.println();
-        System.out.println("Adventurers     " + "Room     " + "Health     " + "Treasure     " + "Total Treasure Value    ");
         for(String name: active_adventurers) {
             System.out.println(name + "          " + adventurer_positions.get(name) + "          " + adventurer_health.get(name)
-                    +  "           " + treasure_bag_hashmap.get(name).getName() + "            " +
+                    +  "           " + treasure_bag_hashmap.get(name).get_treasures() + "            " +
                     treasure_bag_hashmap.get(name).get_value());
         }
         System.out.println();

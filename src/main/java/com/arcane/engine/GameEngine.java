@@ -37,39 +37,25 @@ public class GameEngine {
     invoker = new Invoker();
   }
 
-  public String simulateTurn(Boolean shouldPrint, String commandName){
-    printGame(shouldPrint);
-    // Run the game until game over condition is achieved
-    currentSubject.clear_previous_turn_events();
-    currentSubject.remove_observer(logger);
-    logger.instantiate(turn);
-    currentSubject.register_observer(logger);
-    performCommand(commandName);
-    performCreatureTurn();
-    printGame(shouldPrint);
-    currentSubject.notify_all_observers();
-    // If game ends print results
-    return printGameResults();
+  public Boolean simulateTurn(Boolean shouldPrint, String commandName){
+    if(!isGameOver()) {
+      // Run the game until game over condition is achieved
+      currentSubject.clear_previous_turn_events();
+      currentSubject.remove_observer(logger);
+      logger.instantiate(turn);
+      currentSubject.register_observer(logger);
+      performCommand(commandName);
+      performCreatureTurn();
+      printGame(shouldPrint);
+      currentSubject.notify_all_observers();
+      return Boolean.TRUE;
+    }
+    else{
+      // If game ends print results
+      printGameResults();
+      return Boolean.FALSE;
+    }
   }
-
-//  public String simulateGame(Boolean shouldPrint, String commandName) {
-//    printGame(shouldPrint);
-//    // Run the game until game over condition is achieved
-//    while (!isGameOver()) {
-//      currentSubject.clear_previous_turn_events();
-//      currentSubject.remove_observer(logger);
-//      logger.instantiate(turn);
-//      currentSubject.register_observer(logger);
-//      // perform a turn and then print board
-////      performTurn();
-//      performCommand(commandName);
-//      printGame(shouldPrint);
-//      currentSubject.notify_all_observers();
-//    }
-//    // If game ends print results
-//    return printGameResults();
-//  }
-
   private void printGame(boolean shouldPrint) {
     if (shouldPrint) {
       System.out.println("------------------------------------------------------Turn-" + turn + "----------------------------------------------------------------");
@@ -120,25 +106,6 @@ public class GameEngine {
     }
     System.out.println();
   }
-
-  // Step1: Perform action for all adventurers while checking if game over is achieved
-  // Step2: Perform action for all creatures while checking if game over is achieved
-//  public void performTurn() {
-//    for (Adventurer adventurer : adventurers) {
-//      adventurer.performAction(gameBoard, currentSubject);
-//      creatures = gameBoard.getRemainingCreatures();
-//      if (isGameOver()) {
-//        break;
-//      }
-//    }
-//
-//    for (Creature creature : creatures) {
-//      creature.performAction(gameBoard, currentSubject);
-//      if (isGameOver()) {
-//        break;
-//      }
-//    }
-//  }
   public void performCommand(String CommandName) {
     if (CommandName.contains("Move")) {
       invoker.setCommand(new Move(this.adventurers.get(0), gameBoard, currentSubject, CommandName.split(":")[1]));
@@ -157,10 +124,8 @@ public class GameEngine {
     invoker.performCommand();
   }
     public void performCreatureTurn() {
-    for (Creature creature : creatures) {
-//      creature.performAction(gameBoard, currentSubject);
-
-//      creature.move(gameBoard, currentSubject);
+    this.creatures = gameBoard.getRemainingCreatures();
+    for (Creature creature : this.creatures) {
       creature.performTurn(gameBoard, currentSubject);
       if (isGameOver()) {
         break;
@@ -169,27 +134,26 @@ public class GameEngine {
   }
 
   public boolean isGameOver() {
-    return creatures.isEmpty()
-            || gameBoard.areAllAdventuresDead(adventurers)
-            || gameBoard.getTotalTreasureCount(adventurers) >= Constants.TREASURE_COUNT_FOR_VICTORY
-            || gameBoard.areAllTreasureTypeFound(adventurers)
-            || gameBoard.treasureValue(this.adventurers) >= Constants.TREASURE_VALUE_FOR_VICTORY;
+    return gameBoard.getStartingRoomExitFlag()
+            || gameBoard.areAllAdventuresDead(adventurers);
   }
 
-  public String printGameResults() {
+  public void printGameResults() {
     // Game ends if all creatures die
-    if (creatures.isEmpty()) {
-      System.out.println(Constants.ALL_CREATURES_KILLED);
-      return Constants.ALL_CREATURES_KILLED;
-      // Game ends if all adventurers are dead
-    } else if (gameBoard.areAllAdventuresDead(adventurers)) {
+    if(gameBoard.areAllAdventuresDead(adventurers)){
       System.out.println(Constants.ALL_ADVENTURERS_KILLED);
-      return Constants.ALL_ADVENTURERS_KILLED;
-      // Game ends If 10 treasures are found
-    } else if (gameBoard.getTotalTreasureCount(adventurers) >= Constants.TREASURE_COUNT_FOR_VICTORY) {
-      System.out.println(Constants.ALL_TREASURES_FOUND);
-      return Constants.ALL_TREASURES_FOUND;
     }
-    return "";
-  }
+    else if(gameBoard.getStartingRoomExitFlag()){
+      if(gameBoard.treasureValue(this.adventurers) >= Constants.TREASURE_VALUE_FOR_VICTORY){
+        System.out.println("Adventurer Won! Exited from Starting Room. Found Required Treasure");
+      } else if (creatures.isEmpty()) {
+        System.out.println("Adventurer Won! Exited from Starting Room. Killed all Creatures");
+      } else{
+        System.out.println("Adventurer Lost! Exited without satisfying requirements");
+      }
+    }
+
+    }
+
 }
+
