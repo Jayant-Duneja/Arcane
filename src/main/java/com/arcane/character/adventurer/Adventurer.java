@@ -31,7 +31,6 @@ public abstract class Adventurer extends Character {
   private int baseCreatureCombatRoll=0;
   private int health;
   private int combatExpertiseBonus = 0;
-  private int searchExpertiseBonus = 0;
   IExpertise expertise;
   private String name;
 
@@ -101,7 +100,7 @@ public abstract class Adventurer extends Character {
 //     handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
 //     // Perform post move action
 //     postMove(gameBoard, concreteSubject);
-  protected void move(GameBoard gameBoard,ConcreteSubject concreteSubject) {
+  public void move(GameBoard gameBoard,ConcreteSubject concreteSubject) {
 
     if(canUsePortal()) {
       usePortal(gameBoard, concreteSubject);
@@ -143,7 +142,7 @@ public abstract class Adventurer extends Character {
     }
   }
 
-  protected void fightCreatures(GameBoard gameBoard, ConcreteSubject concreteSubject) {
+  public void fightCreatures(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     // if adventurer is alive then fight
     if (this.isAlive()) {
       // Get the creatures present in the current room
@@ -249,13 +248,13 @@ public abstract class Adventurer extends Character {
     return RandomHelper.getInt(100) < dodgeChance;
   }
 
-  protected void searchTreasure(GameBoard gameBoard, ConcreteSubject concreteSubject) {
+  public void searchTreasure(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     List<Treasure> treasures_in_current_room=gameBoard.getRoom(currentRoomId).getTreasures();
 
     int sumOfDice = Dice.rollDice() + this.baseTreasureRoll + combatExpertiseBonus; // Roll the dice
 
-    // Condition to search for treasure
-    if (sumOfDice >= 11) {
+    // New Condition to search for treasure
+    if (sumOfDice >= 7) {
 
       List<Treasure> treasures_to_remove_in_room = new ArrayList<>();
       int treasure_count;
@@ -414,14 +413,4 @@ public abstract class Adventurer extends Character {
   public String getName(){
         return this.name;
   }
-
-
-  // TODO: Check if getTreasureBag, setTreasureBag is needed
-  public Treasure getTreasureBag(){
-    return this.treasure_bag;
-  }
-
-    public void setTreasureBag(Treasure treasure){
-        this.treasure_bag = treasure;
-    }
 }

@@ -137,8 +137,7 @@ public class GameEngine {
 //      }
 //    }
 //  }
-  public void performCommand(String CommandName)
-  {
+  public void performCommand(String CommandName) {
       switch (CommandName) {
           case "Move" -> invoker.setCommand(new Move(this.adventurers.get(0), gameBoard, currentSubject));
           case "Search" -> invoker.setCommand(new Search(this.adventurers.get(0), gameBoard, currentSubject));

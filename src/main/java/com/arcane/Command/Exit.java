@@ -17,7 +17,7 @@ public class Exit implements Command{
     public void execute() {
         String currentRoom = this.adventurer.getCurrentRoomId();
 
-        // Only exit from starting room
+        // Only exit from the starting room
         if(currentRoom.equals("SR")){
             exit(currentRoom);
         }

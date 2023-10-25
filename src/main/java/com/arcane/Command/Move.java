@@ -7,6 +7,8 @@ import com.arcane.board.GameBoard;
 import com.arcane.character.adventurer.Adventurer;
 import com.arcane.util.RandomHelper;
 
+import java.util.Scanner;
+
 public class Move implements Command{
     Adventurer adventurer;
     GameBoard gameBoard;
@@ -19,24 +21,12 @@ public class Move implements Command{
     @Override
     public void execute() {
 
-        if(this.adventurer.canUsePortal()){
-            this.adventurer.usePortal(this.gameBoard, (ConcreteSubject) this.currentSubject);
+        // Check if there are creatures in the room, if so, take damage before moving to the next room.
+        String roomId = this.adventurer.getCurrentRoomId();
+
+        if (!this.gameBoard.getRoom(roomId).getCreatures().isEmpty()) {
+            this.adventurer.takeDamage();
         }
-        else{
-            this.gameBoard.getRoom(this.adventurer.getCurrentRoomId()).getAdventurers().remove(this.adventurer);
-
-            // Move the adventurer to the next room
-            String currentRoomId = RandomHelper.getRandomElementFromList(gameBoard.getRoom(this.adventurer.getCurrentRoomId()).getConnectedRooms()).getRoomId();
-
-            //  Tracker
-            //  concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
-
-            // Add adventurer to new room
-            this.gameBoard.getRoom(currentRoomId).addAdventurer(this.adventurer);
-            this.adventurer.handleElementalEffects(this.gameBoard.getRoom(currentRoomId), (ConcreteSubject) this.currentSubject);
-
-            // TODO : Do I need postMove() here?
-
-        }
+        this.adventurer.move(this.gameBoard, (ConcreteSubject) this.currentSubject);
     }
 }
