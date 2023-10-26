@@ -208,7 +208,7 @@ public abstract class Adventurer extends Character {
     List<Treasure> treasures_in_current_room=gameBoard.getRoom(currentRoomId).getTreasures();
 
     int sumOfDice = Dice.rollDice() + this.baseTreasureRoll + combatExpertiseBonus; // Roll the dice
-
+    System.out.println("Searching");
     // New Condition to search for treasure
     if (sumOfDice >= 7) {
 
@@ -217,14 +217,24 @@ public abstract class Adventurer extends Character {
       for(Treasure treasure : gameBoard.getRoom(currentRoomId).getTreasures()){
         treasure_count =  this.treasure_inventory.get(treasure.getName());
         if((Objects.equals(treasure.getName(), "Gem")) || ( treasure_count== 0)){
-          concreteSubject.add_event_to_current_turn(EventType.FIND_TREASURE, this.acronym.acronym
-                  + "-" + treasure.getName());
+          concreteSubject.add_event_to_current_turn(EventType.FIND_TREASURE, this.acronym.acronym + "-" + treasure.getName());
           treasure.update_adventurer_attributes(this);
           treasures_to_remove_in_room.add(treasure);
-          this.treasure_inventory.put(treasure.getName(), treasure_count+1);
-          updateTreasureCount(treasure.getName());
-          // update treasure bag
-          this.treasure_bag = createObject(treasure.getName(), this.treasure_bag);
+
+          if(treasure.getName().equals("Portal")){
+            //Use Portal to teleport to a random room
+            System.out.println("PORTAL MIL GYA !! MAUJ HAI BHAI ");
+
+            concreteSubject.add_event_to_current_turn(EventType.PORTAL_USED, currentRoomId);
+            usePortal(gameBoard, concreteSubject);
+          }
+          else{
+            this.treasure_inventory.put(treasure.getName(), treasure_count+1);
+
+            updateTreasureCount(treasure.getName());
+            // update treasure bag
+            this.treasure_bag = createObject(treasure.getName(), this.treasure_bag);
+          }
         }
       }
 
@@ -295,7 +305,7 @@ public abstract class Adventurer extends Character {
 
   // Using portal to teleport to a random room
   public void usePortal(GameBoard gameBoard, ConcreteSubject concreteSubject) {
-
+    System.out.println("Using Portal");
     // Get the current room
     Room currentRoom = gameBoard.getRoom(currentRoomId);
 
