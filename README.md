@@ -7,6 +7,7 @@
 
 
 **Description**
-1. Strategy Pattern is shown under the 'Strategy' package. Defined the strategy pattern in the Adventurer class; with the expertise starting from the novice level.
-2. Observer Pattern is shown under the 'Observer' package. For the Observer pattern, we are using the 'Push' Model, i.e the subject sends the message to the Logger and the Tracker and both of these are not allowed to query the subject for more information. 
-3. Decorator Pattern is shown under the 'Decorator' package. For the decorator, as described in the Assignment description, we have defined a Treasure_Bag which is defined as a member variable of the Adventurer class and used to calculate the total amount of treasure held by an adventurer. 
+1. The implementation of the Factory pattern for the Adventurer and the Creature Factory is in the Factory package
+2. The implementations of the Command pattern are in the Command package. The invoker has been defined and used in the GameEngine class
+3. The Logger and the Tracker have been defined as Singletons. The Tracker is defined using eager instantiation and the Logger has been defined using lazy instantiation.
+4. The bonus part has been implemented. The code for creating the graph is in the User class and a sample graph has been shown in the LineGraphExample.jpeg file.
