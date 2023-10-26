@@ -1,0 +1,4 @@
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-0-1

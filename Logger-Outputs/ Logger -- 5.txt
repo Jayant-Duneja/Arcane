@@ -1,0 +1,96 @@
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-2-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: A
+Current Room type: WATER-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: Z
+Current Room type: AIR-0-1
+--------------------------------------------------------------------
+Event type: WIN_COMBAT
+Name: EK
+--------------------------------------------------------------------
+Event type: LOSE_COMBAT
+Name: T
+--------------------------------------------------------------------
+Event type: DEFEAT
+Name: T
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-2-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-1-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: T
+Current Room type: EARTH-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-2-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: A
+Current Room type: WATER-1-1
+--------------------------------------------------------------------
+Event type: Adventurer_enter_room
+Name: EK
+Current Room type: SR
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-0-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-2-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: T
+Current Room type: EARTH-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: T
+Current Room type: EARTH-0-0
+--------------------------------------------------------------------
+Event type: LOSE_HEALTH
+Name: EK-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-0-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-0-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-2-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: A
+Current Room type: WATER-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: A
+Current Room type: WATER-1-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: T
+Current Room type: EARTH-1-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: Z
+Current Room type: AIR-1-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: Z
+Current Room type: AIR-0-1

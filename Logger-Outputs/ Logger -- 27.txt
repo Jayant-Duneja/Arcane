@@ -1,0 +1,16 @@
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-2-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-1-2
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: Z
+Current Room type: AIR-1-1
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: Z
+Current Room type: AIR-0-0

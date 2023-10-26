@@ -1,0 +1,29 @@
+--------------------------------------------------------------------
+Event type: WIN_COMBAT
+Name: EK
+--------------------------------------------------------------------
+Event type: LOSE_COMBAT
+Name: A
+--------------------------------------------------------------------
+Event type: DEFEAT
+Name: A
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-1-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: F
+Current Room type: FIRE-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: A
+Current Room type: WATER-0-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: Z
+Current Room type: AIR-1-0
+--------------------------------------------------------------------
+Event type: Creature_enter_room
+Name: Z
+Current Room type: AIR-0-1
