@@ -15,6 +15,7 @@ import com.arcane.engine.GameEngine;
 import com.arcane.util.Constants;
 import com.arcane.util.RandomHelper;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 import static com.arcane.Decorator.Treasure_Factory.createObject;
@@ -80,15 +81,33 @@ public abstract class Adventurer extends Character {
   }
 
   public void move(GameBoard gameBoard,ConcreteSubject concreteSubject, String nextRoomId){
-    gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
-    currentRoomId = nextRoomId;
-    concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
-    // Add adventurer to the new room
-    gameBoard.getRoom(currentRoomId).addAdventurer(this);
-    // Handle Elemental effects to the adventurer stats
-    handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
 
+    String nextFloor = nextRoomId.split("-")[0];
+    String roomNumber = nextRoomId.split("-")[1] + "-" + nextRoomId.split("-")[2];
+    String currentFloor = this.currentRoomId.split("-")[0];
+
+    boolean flag = true;
+
+    if(!nextFloor.equals(currentFloor)){
+
+      // If the current room is not 1-1 then don't allow adventurer to change a floor
+        if(!roomNumber.equals("1-1")){
+            concreteSubject.add_event_to_current_turn(EventType.CANNOT_CHANGE_FLOOR, this.acronym.acronym);
+            flag = false;
+        }
+    }
+
+    if(flag){
+      gameBoard.getRoom(currentRoomId).getAdventurers().remove(this);
+      currentRoomId = nextRoomId;
+      concreteSubject.add_event_to_current_turn(EventType.Adventurer_enter_room, this.acronym.acronym, currentRoomId);
+      // Add adventurer to the new room
+      gameBoard.getRoom(currentRoomId).addAdventurer(this);
+      // Handle Elemental effects to the adventurer stats
+      handleElementalEffects(gameBoard.getRoom(currentRoomId), concreteSubject);
+    }
   }
+
   public void fightCreatures(GameBoard gameBoard, ConcreteSubject concreteSubject) {
     // if adventurer is alive then fight
     if (this.isAlive()) {
