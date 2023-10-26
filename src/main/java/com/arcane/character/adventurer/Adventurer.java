@@ -227,7 +227,6 @@ public abstract class Adventurer extends Character {
     List<Treasure> treasures_in_current_room=gameBoard.getRoom(currentRoomId).getTreasures();
 
     int sumOfDice = Dice.rollDice() + this.baseTreasureRoll + combatExpertiseBonus; // Roll the dice
-    System.out.println("Searching");
     // New Condition to search for treasure
     if (sumOfDice >= 7) {
 
@@ -242,7 +241,6 @@ public abstract class Adventurer extends Character {
 
           if(treasure.getName().equals("Portal")){
             //Use Portal to teleport to a random room
-            System.out.println("PORTAL MIL GYA !! MAUJ HAI BHAI ");
 
             concreteSubject.add_event_to_current_turn(EventType.PORTAL_USED, currentRoomId);
             usePortal(gameBoard, concreteSubject);
@@ -324,7 +322,6 @@ public abstract class Adventurer extends Character {
 
   // Using portal to teleport to a random room
   public void usePortal(GameBoard gameBoard, ConcreteSubject concreteSubject) {
-    System.out.println("Using Portal");
     // Get the current room
     Room currentRoom = gameBoard.getRoom(currentRoomId);
 
