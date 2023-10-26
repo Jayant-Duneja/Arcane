@@ -10,7 +10,8 @@ public enum EventType {
     GAIN_ELEMENTAL_RESONANCE("Adventurer gained Resonance: "),
     LOSE_HEALTH("Adventurer Lost Health: "),
     DEFEAT("Entity was removed: "),
-    FIND_TREASURE("Adventurer found Treasure: ");
+    FIND_TREASURE("Adventurer found Treasure: "),
+    CANNOT_CHANGE_FLOOR("Cannot change floor, Goto starting room first");
 
     EventType(String event_string) {
 
