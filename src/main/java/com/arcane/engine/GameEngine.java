@@ -8,6 +8,8 @@ import com.arcane.board.GameBoard;
 import com.arcane.character.adventurer.Adventurer;
 import com.arcane.character.creature.Creature;
 import com.arcane.util.Constants;
+import com.arcane.util.ReturnType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +36,11 @@ public class GameEngine {
     tracker = Tracker.getInstance();
     tracker.initialize(this.adventurers, this.creatures);
     currentSubject.register_observer(tracker);
+    // Invoker of the Command pattern
     invoker = new Invoker();
   }
 
-  public Boolean simulateTurn(Boolean shouldPrint, String commandName){
+  public ReturnType simulateTurn(Boolean shouldPrint, String commandName){
     if(!isGameOver()) {
       // Run the game until game over condition is achieved
       currentSubject.clear_previous_turn_events();
@@ -48,12 +51,12 @@ public class GameEngine {
       performCreatureTurn();
       printGame(shouldPrint);
       currentSubject.notify_all_observers();
-      return Boolean.TRUE;
+      return new ReturnType(Boolean.TRUE,gameBoard.getRemainingCreatures().size(), this.adventurers.get(0).getHealth(), gameBoard.getTotalTreasureCount(this.adventurers));
     }
     else{
       // If game ends print results
       printGameResults();
-      return Boolean.FALSE;
+      return new ReturnType(Boolean.FALSE,gameBoard.getRemainingCreatures().size(), this.adventurers.get(0).getHealth(), gameBoard.getTotalTreasureCount(this.adventurers));
     }
   }
   private void printGame(boolean shouldPrint) {
@@ -107,6 +110,7 @@ public class GameEngine {
     System.out.println();
   }
   public void performCommand(String CommandName) {
+    // Setting the command in the invoker
     if (CommandName.contains("Move")) {
       invoker.setCommand(new Move(this.adventurers.get(0), gameBoard, currentSubject, CommandName.split(":")[1]));
     } else if (CommandName.contains("Search")) {
@@ -120,7 +124,7 @@ public class GameEngine {
       // You may want to provide a default action or an error message.
       System.out.println("Please provide a valid command.");
     }
-
+    // Performing the Command in the invoker
     invoker.performCommand();
   }
     public void performCreatureTurn() {
