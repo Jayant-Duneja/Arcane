@@ -5,17 +5,15 @@ import com.arcane.Decorator.Treasure_Bag;
 import com.arcane.Element;
 import com.arcane.Observer.EventType;
 import com.arcane.Observer.Subject.ConcreteSubject;
+import com.arcane.Strategy.*;
 import com.arcane.board.Dice;
 import com.arcane.board.GameBoard;
 import com.arcane.board.rooms.Room;
 import com.arcane.character.Character;
 import com.arcane.character.creature.Creature;
-import com.arcane.Strategy.*;
-import com.arcane.engine.GameEngine;
 import com.arcane.util.Constants;
 import com.arcane.util.RandomHelper;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static com.arcane.Decorator.Treasure_Factory.createObject;
@@ -242,7 +240,7 @@ public abstract class Adventurer extends Character {
           if(treasure.getName().equals("Portal")){
             //Use Portal to teleport to a random room
 
-            concreteSubject.add_event_to_current_turn(EventType.PORTAL_USED, currentRoomId);
+//            concreteSubject.add_event_to_current_turn(EventType.CANNOT_CHANGE_FLOOR, currentRoomId);
             usePortal(gameBoard, concreteSubject);
           }
           else{

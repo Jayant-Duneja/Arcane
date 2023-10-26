@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class ExampleTest {
+public class TestCases {
     @Test
     void testEmberKnightResonance(){
         EmberKnight testEmberKnight = new EmberKnight("");
