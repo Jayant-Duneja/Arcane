@@ -20,6 +20,8 @@ public class Logger implements Observer {
         file_name="";
     }
     public static Logger getInstance(){
+        // Singleton implementation of the Logger
+        // Lazy initialization of the Logger
         if(logger == null){
             logger = new Logger();
         }

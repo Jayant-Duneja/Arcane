@@ -1,24 +1,22 @@
 package com.arcane.Observer.Observer;
 
-import com.arcane.Decorator.Armor;
 import com.arcane.Decorator.Treasure;
 import com.arcane.Decorator.Treasure_Bag;
 import com.arcane.Observer.Event;
-import com.arcane.Observer.EventType;
 import com.arcane.board.GameBoard;
 import com.arcane.character.adventurer.Adventurer;
 import com.arcane.character.creature.Creature;
-import com.arcane.util.Constants;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.arcane.Decorator.Treasure_Factory.createObject;
-import static java.lang.System.in;
 
 public class Tracker implements Observer {
+    // Singleton implementation of the Tracker
+    // Eager initialization of the Tracker
     private static Tracker uniqueTracker = new Tracker();
     int turn_number;
     private int total_treasure_value;
@@ -42,44 +40,6 @@ public class Tracker implements Observer {
         current_discord = new ArrayList<>();
         current_resonance = new ArrayList<>();
         active_adventurers = new ArrayList<>();
-//        treasure_bag_hashmap = new HashMap<>(){
-//            {
-//                put("EK", new Treasure_Bag());
-//                put("MW", new Treasure_Bag());
-//                put("ZR", new Treasure_Bag());
-//                put("TV", new Treasure_Bag());
-//            }};
-//        adventurer_health = new HashMap<>(){
-//            {
-//                put("EK", 5);
-//                put("MW", 3);
-//                put("ZR", 3);
-//                put("TV", 7);
-//            }};
-//
-//        adventurer_positions = new HashMap<>(){
-//            {
-//            put("EK", "SR");
-//            put("MW", "SR");
-//            put("ZR", "SR");
-//            put("TV", "SR");
-//
-//        }};
-//        active_creatures = new HashMap<>(){
-//            {
-//            put("A", 4);
-//            put("Z", 4);
-//            put("T", 4);
-//            put("F", 4);
-//
-//        }};
-//        current_discord = new ArrayList<>();
-//        current_resonance = new ArrayList<>();
-//        active_adventurers = new ArrayList<>();
-//        active_adventurers.add("EK");
-//        active_adventurers.add("ZR");
-//        active_adventurers.add("MW");
-//        active_adventurers.add("TV");
     }
     public void initialize(List<Adventurer> adventurers, List<Creature> creatures){
         for(Adventurer adventurer:adventurers){

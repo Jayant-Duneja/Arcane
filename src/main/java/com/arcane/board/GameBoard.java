@@ -78,6 +78,7 @@ public class GameBoard {
 
   private void addAdventures(String adventurerType, String adventurerCustomName) {
     List<Adventurer> adventurers =
+            // Implementation of the Factory Pattern. Encapsulate the Adventurer Creation
         Arrays.asList(adventurerFactory.createCharacter(adventurerType, adventurerCustomName));
     adventurers.forEach(
         adventurer -> this.roomMap.get(adventurer.getCurrentRoomId()).addAdventurer(adventurer));
@@ -93,6 +94,7 @@ public class GameBoard {
     List<String> tempList = Arrays.asList(stringArray);
     List<Creature> creatures =  new ArrayList<>();
     for(String s:tempList){
+      // Implementation of the Factory Pattern. Encapsulate the Creature Creation
       creatures.add(creatureFactory.createCharacter(s, ""));
     }
     creatures.forEach(
